@@ -1,21 +1,17 @@
 import CommandResponseLayoutComponent from './shared/command_response_layout'
-import { getPreferenceValues, showToast, Toast } from '@raycast/api'
-import { OPEN_AI_MODELS } from './shared/constants'
+import { getPreferenceValues } from '@raycast/api'
+import { showToastApiKeyError, getModel, showToastModelError, isApiKeyConfigured } from './shared/utils'
 
-const { prompt_fix_grammar, default_llm, openai_apikey } = getPreferenceValues()
-
-const isDefaultValueFromOpenAi = OPEN_AI_MODELS.some(model => model === default_llm)
-
-console.log(getPreferenceValues())
-
-async function showErrorToast({ defaultModelOwner }: { defaultModelOwner: string }) {
-	await showToast(Toast.Style.Failure, `Error: Configure the API Key for ${defaultModelOwner}`)
-}
+const { promptFixGrammar } = getPreferenceValues()
 
 export default function FixGrammarCommand() {
-	if (isDefaultValueFromOpenAi && !openai_apikey) {
-		showErrorToast({ defaultModelOwner: 'OpenAI' })
-	}
+	const { modelOwner, model } = getModel()
 
-	return CommandResponseLayoutComponent({ response: prompt_fix_grammar })
+	if (!model) {
+		showToastModelError()
+	}
+	if (!isApiKeyConfigured({ modelOwner })) {
+		showToastApiKeyError({ modelOwner })
+	}
+	return CommandResponseLayoutComponent({ response: promptFixGrammar })
 }
