@@ -1,12 +1,10 @@
-import { Detail, ActionPanel, Action, environment } from '@raycast/api'
-import AiActionConfigurationComponent from './ai_action_configuration'
+import { Detail, ActionPanel, Action, openCommandPreferences, openExtensionPreferences } from '@raycast/api'
 
 export default function CommandResponseLayoutComponent({
 	response = 'There is not a prompt'
 }: {
 	response?: string
 }) {
-	const { commandName } = environment
 	return (
 		<Detail
 			markdown={response}
@@ -26,10 +24,9 @@ export default function CommandResponseLayoutComponent({
 			actions={
 				<ActionPanel title="#1 in raycast/extensions">
 					<Action.CopyToClipboard title="Copy Response" content={response} />
-					<Action.Push
-						title={'AI Action Configuration'}
-						target={<AiActionConfigurationComponent commandName={commandName} />}
-					/>
+					<Action.Paste content={response} />
+					<Action title="Add API Key" onAction={() => openExtensionPreferences()} />{' '}
+					<Action title="Configure Command" onAction={() => openCommandPreferences()} />{' '}
 				</ActionPanel>
 			}
 		/>
