@@ -24,11 +24,11 @@ export async function showToastModelError() {
 }
 
 export function isApiKeyConfigured({ modelOwner }: { modelOwner: string }) {
-	const { openAiApiKey } = getPreferenceValues()
+	const { openaiApiKey } = getPreferenceValues()
 
 	switch (modelOwner) {
 		case MODEL_OWNERS.OPEN_AI:
-			return Boolean(openAiApiKey)
+			return Boolean(openaiApiKey)
 		default:
 			return false
 	}
