@@ -18,7 +18,7 @@
       "icon": "command-icon.png",
       "preferences": [
         {
-          "name": "prompt_fix_grammar",
+          "name": "promptFixGrammar",
           "title": "Fix grammar Prompt",
           "description": "The prompt for the fix grammar command",
           "type": "textfield",
@@ -35,7 +35,7 @@
       "icon": "command-icon.png",
       "preferences": [
         {
-          "name": "prompt_summarize",
+          "name": "promptSummarize",
           "title": "Summarize Prompt",
           "description": "The prompt for the summarize command",
           "type": "textfield",
@@ -51,7 +51,7 @@
   },
   "preferences": [
     {
-      "name": "default_llm",
+      "name": "defaultModel",
       "description": "default LLM for your AI Actions",
       "type": "dropdown",
       "data": [
@@ -64,11 +64,11 @@
           "value": "gpt-4o"
         }
       ],
-      "required": false,
+      "required": true,
       "title": "Default LLM for AI Actions"
     },
     {
-      "name": "openai_apikey",
+      "name": "openaiApiKey",
       "description": "Your OpenAI API Key",
       "type": "password",
       "required": false,

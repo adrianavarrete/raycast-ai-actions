@@ -2,9 +2,9 @@ import CommandResponseLayoutComponent from './shared/command_response_layout'
 import { getPreferenceValues, showToast, Toast } from '@raycast/api'
 import { OPEN_AI_MODELS } from './shared/constants'
 
-const { prompt_fix_grammar, default_llm, openai_apikey } = getPreferenceValues()
+const { promptFixGrammar, defaultModel, openaiApiKey } = getPreferenceValues()
 
-const isDefaultValueFromOpenAi = OPEN_AI_MODELS.some(model => model === default_llm)
+const isDefaultValueFromOpenAi = OPEN_AI_MODELS.some(model => model === defaultModel)
 
 console.log(getPreferenceValues())
 
@@ -13,9 +13,9 @@ async function showErrorToast({ defaultModelOwner }: { defaultModelOwner: string
 }
 
 export default function SummarizeCommand() {
-	if (isDefaultValueFromOpenAi && !openai_apikey) {
+	if (isDefaultValueFromOpenAi && !openaiApiKey) {
 		showErrorToast({ defaultModelOwner: 'OpenAI' })
 	}
 
-	return CommandResponseLayoutComponent({ response: prompt_fix_grammar })
+	return CommandResponseLayoutComponent({ response: promptFixGrammar })
 }
