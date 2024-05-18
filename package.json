@@ -13,14 +13,57 @@
     {
       "name": "configuration",
       "title": "Configuration",
-      "description": "",
+      "description": "Configurate the extension",
       "mode": "view"
+    },
+    {
+      "name": "fix_grammar",
+      "title": "FixGrammar",
+      "description": "fix grammarfix grammarfix grammarfix grammar",
+      "mode": "view",
+      "icon": "command-icon.png",
+      "preferences": [
+        {
+          "name": "prompt_fix_grammar",
+          "title": "Fix grammar Prompt",
+          "description": "The prompt for the summarize command",
+          "type": "textfield",
+          "default": "Fix that text",
+          "required": false
+        }
+      ]
     }
   ],
   "dependencies": {
     "@raycast/api": "^1.74.1",
     "openai": "^4.47.1"
   },
+  "preferences": [
+    {
+      "name": "openai_apikey",
+      "description": "Your OpenAI API Key",
+      "type": "password",
+      "required": false,
+      "title": "OpenAI API Key"
+    },
+    {
+      "name": "default_llm",
+      "description": "default LLM for your AI Actions",
+      "type": "dropdown",
+      "data": [
+        {
+          "title": "OpenAI - GPT-3.5 Turbo",
+          "value": "gpt-3.5-turbo"
+        },
+        {
+          "title": "OpenAI - GPT-4o",
+          "value": "gpt-4o"
+        }
+      ],
+      "required": false,
+      "title": "Default LLM for AI Actions"
+    }
+  ],
   "devDependencies": {
     "@raycast/eslint-config": "^1.0.6",
     "@types/node": "20.8.10",
