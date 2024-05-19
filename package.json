@@ -2,7 +2,7 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "ai-actions",
   "title": "AI Actions",
-  "description": "Make AI actions from your favorite LLMs directly from Raycast without logging in to their platforms",
+  "description": "Make AI actions from your favorite models directly from Raycast without logging in to their platforms",
   "icon": "command-icon.png",
   "author": "adria_navarrete",
   "categories": [
@@ -39,7 +39,7 @@
           "title": "Summarize Prompt",
           "description": "The prompt for the summarize command",
           "type": "textfield",
-          "default": "Fix that text",
+          "default": "Summarize the article in 100-150 words, focusing on the main points and key takeaways",
           "required": false
         }
       ]
@@ -53,7 +53,7 @@
   "preferences": [
     {
       "name": "defaultModel",
-      "description": "default LLM for your AI Actions",
+      "description": "default model for your AI Actions",
       "type": "dropdown",
       "data": [
         {
@@ -66,7 +66,7 @@
         }
       ],
       "required": true,
-      "title": "Default LLM for AI Actions"
+      "title": "Default Model for AI Actions"
     },
     {
       "name": "openaiApiKey",

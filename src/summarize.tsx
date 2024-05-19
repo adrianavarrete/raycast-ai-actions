@@ -1,21 +1,20 @@
-import CommandResponseLayoutComponent from './shared/command_response_layout'
-import { getPreferenceValues, showToast, Toast } from '@raycast/api'
-import { OPEN_AI_MODELS } from './shared/constants'
+import { getPreferenceValues } from '@raycast/api'
+import { getAiAPIClient, getModel } from './shared/utils'
+import ExecuteCommand from './execute_command'
 
-const { promptFixGrammar, defaultModel, openaiApiKey } = getPreferenceValues()
-
-const isDefaultValueFromOpenAi = OPEN_AI_MODELS.some(model => model === defaultModel)
-
-console.log(getPreferenceValues())
-
-async function showErrorToast({ defaultModelOwner }: { defaultModelOwner: string }) {
-	await showToast(Toast.Style.Failure, `Error: Configure the API Key for ${defaultModelOwner}`)
-}
+const { promptSummarize } = getPreferenceValues()
 
 export default function SummarizeCommand() {
-	if (isDefaultValueFromOpenAi && !openaiApiKey) {
-		showErrorToast({ defaultModelOwner: 'OpenAI' })
-	}
+	const { modelOwner, model } = getModel()
 
-	return CommandResponseLayoutComponent({ response: promptFixGrammar })
+	const aiApiClient = getAiAPIClient()
+
+	return (
+		<ExecuteCommand
+			commandPrompt={promptSummarize}
+			aiApiClient={aiApiClient}
+			modelOwner={modelOwner}
+			model={model}
+		/>
+	)
 }
