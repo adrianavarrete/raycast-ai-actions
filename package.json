@@ -12,8 +12,8 @@
   "commands": [
     {
       "name": "fix_grammar",
-      "title": "FixGrammar",
-      "description": "fix grammarfix grammarfix grammarfix grammar",
+      "title": "Fix Spelling and Grammar",
+      "description": "Detects the writer's language and rewrites the text with corrected spelling, grammar, and punctuation. The improved text is then presented with highlighted changes, making it easier to identify corrections.",
       "mode": "view",
       "icon": "command-icon.png",
       "preferences": [
@@ -22,15 +22,15 @@
           "title": "Fix grammar Prompt",
           "description": "The prompt for the fix grammar command",
           "type": "textfield",
-          "default": "Act as a spelling corrector and improver. Rewrite the text with corrected spelling, grammar, and punctuation. I want only the output expected in a simple string, I do not want to read any payload added by you. Do not add double quotes.",
+          "default": "Act as a spelling corrector and improver. First, detect the writter's language and rewrite the text using the language detected with corrected spelling, grammar, and punctuation, highlighting the changes that you made. I want only the corrected text with the changes highlighted in bold.",
           "required": false
         }
       ]
     },
     {
       "name": "summarize",
-      "title": "Summarize",
-      "description": "fix grammarfix grammarfix grammarfix grammar",
+      "title": "Summary",
+      "description": "A concise overview, highlighting key points and takeaways.",
       "mode": "view",
       "icon": "command-icon.png",
       "preferences": [
