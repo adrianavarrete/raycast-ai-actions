@@ -25,7 +25,7 @@ export default function CommandResponseLayoutComponent({
 					<Detail.Metadata.Label title="Prompt Tokens" text={promptTokenCount.toString()} />
 					<Detail.Metadata.Label title="Response Tokens" text={responseTokenCount.toString()} />
 					<Detail.Metadata.Separator />
-					<Detail.Metadata.Label title="Total Tokens" text={'test'} />
+					<Detail.Metadata.Label title="Total Tokens" text={} />
 					<Detail.Metadata.Label title="Total Cost" text={totalCost.toString()} />
 					<Detail.Metadata.Separator />
 					<Detail.Metadata.Label title="Culmulative Tokens" text={'test'} />

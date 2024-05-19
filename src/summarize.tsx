@@ -1,6 +1,6 @@
 import { getPreferenceValues } from '@raycast/api'
 import { getAiAPIClient, getModel } from './shared/utils'
-import ExecuteCommand from './execute_command'
+import ExecuteCommand from './shared/execute_command/execute_command'
 
 const { promptSummarize } = getPreferenceValues()
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import CommandResponseLayoutComponent from './shared/command_response_layout'
+import CommandResponseLayoutComponent from './command_response_layout'
 import { getSelectedText } from '@raycast/api'
 import {
 	showToastApiKeyError,
@@ -9,8 +9,8 @@ import {
 	showToastSelectedTextError,
 	countToken,
 	estimatePrice
-} from './shared/utils'
-import { OpenAiClient } from './shared/api/openai_client'
+} from '../utils'
+import { OpenAiClient } from '../api/openai_client'
 
 export default function ExecuteCommand({
 	commandPrompt,
