@@ -1,5 +1,6 @@
 import { Toast, getPreferenceValues, showToast } from '@raycast/api'
 import { MODEL_OWNERS, OPEN_AI_MODELS } from './constants'
+import { OpenAiClient } from './api/openai_client'
 
 type Model = {
 	modelOwner: string
@@ -23,6 +24,9 @@ export async function showToastModelError() {
 	await showToast(Toast.Style.Failure, `Error: Model has not been set`)
 }
 
+export async function showToastSelectedTextError() {
+	await showToast(Toast.Style.Failure, `Error: Text has not been selected`)
+}
 export function isApiKeyConfigured({ modelOwner }: { modelOwner: string }) {
 	const { openaiApiKey } = getPreferenceValues()
 
@@ -32,4 +36,9 @@ export function isApiKeyConfigured({ modelOwner }: { modelOwner: string }) {
 		default:
 			return false
 	}
+}
+
+export function getAiAPIClient() {
+	const { openaiApiKey } = getPreferenceValues()
+	return new OpenAiClient({ apiKey: openaiApiKey })
 }
