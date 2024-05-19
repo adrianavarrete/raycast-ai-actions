@@ -1,12 +1,15 @@
 import { Detail, ActionPanel, Action, openCommandPreferences, openExtensionPreferences } from '@raycast/api'
 
 export default function CommandResponseLayoutComponent({
-	response = 'There is not a prompt'
+	response,
+	isLoading
 }: {
-	response?: string
+	response: string
+	isLoading: boolean
 }) {
 	return (
 		<Detail
+			isLoading={isLoading}
 			markdown={response}
 			metadata={
 				<Detail.Metadata>

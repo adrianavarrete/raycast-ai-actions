@@ -22,7 +22,7 @@
           "title": "Fix grammar Prompt",
           "description": "The prompt for the fix grammar command",
           "type": "textfield",
-          "default": "Fix that text",
+          "default": "Act as a spelling corrector and improver. Rewrite the text with corrected spelling, grammar, and punctuation. I want only the output expected in a simple string, I do not want to read any payload added by you. Do not add double quotes.",
           "required": false
         }
       ]
