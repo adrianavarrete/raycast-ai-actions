@@ -6,7 +6,8 @@ import {
 	showToastModelError,
 	isApiKeyConfigured,
 	showToastSelectedTextError,
-	getAiAPIClient
+	getAiAPIClient,
+	countToken
 } from './shared/utils'
 import React from 'react'
 const { promptFixGrammar } = getPreferenceValues()
@@ -18,6 +19,8 @@ export default function FixGrammarCommand() {
 
 	const [isLoading, setIsLoading] = React.useState(false)
 	const [response, setResponse] = React.useState('')
+	const [promptTokenCount, setPromptTokenCount] = React.useState(0)
+	const [responseTokenCount, setResponseTokenCount] = React.useState(0)
 
 	const handleGetSelectedText = React.useCallback(async () => {
 		try {
@@ -30,7 +33,7 @@ export default function FixGrammarCommand() {
 
 	const handleGetStream = React.useCallback(async () => {
 		const selectedText = await handleGetSelectedText()
-
+		setPromptTokenCount(countToken({ text: `${promptFixGrammar} ${selectedText}` }))
 		setIsLoading(true)
 
 		try {
@@ -46,6 +49,7 @@ export default function FixGrammarCommand() {
 					response += chunkContent
 				}
 				setResponse(response)
+				setResponseTokenCount(countToken({ text: response }))
 			}
 		} catch (error) {
 			console.error(error)
@@ -64,5 +68,13 @@ export default function FixGrammarCommand() {
 		handleGetStream()
 	}, [model, modelOwner, handleGetStream])
 
-	return <CommandResponseLayoutComponent response={response} isLoading={isLoading} />
+	return (
+		<CommandResponseLayoutComponent
+			response={response}
+			isLoading={isLoading}
+			promptTokenCount={promptTokenCount}
+			responseTokenCount={responseTokenCount}
+			currentModel={model}
+		/>
+	)
 }

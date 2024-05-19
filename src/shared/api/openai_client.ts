@@ -24,11 +24,4 @@ export class OpenAiClient {
 			stream: true
 		})
 	}
-
-	countToken({ text }: { text: string }) {
-		const numberOfWords = text.split(' ').length
-		// On average 1 token is 0,75 words https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
-		const averageWordsTokens = 0.75
-		return Math.round(numberOfWords / averageWordsTokens)
-	}
 }

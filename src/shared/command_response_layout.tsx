@@ -2,10 +2,16 @@ import { Detail, ActionPanel, Action, openCommandPreferences, openExtensionPrefe
 
 export default function CommandResponseLayoutComponent({
 	response,
-	isLoading
+	isLoading,
+	promptTokenCount = 0,
+	responseTokenCount = 0,
+	currentModel
 }: {
 	response: string
 	isLoading: boolean
+	promptTokenCount: number
+	responseTokenCount: number
+	currentModel: string
 }) {
 	return (
 		<Detail
@@ -13,9 +19,9 @@ export default function CommandResponseLayoutComponent({
 			markdown={response}
 			metadata={
 				<Detail.Metadata>
-					<Detail.Metadata.Label title="Current Model" text={'test'} />
-					<Detail.Metadata.Label title="Prompt Tokens" text={'test'} />
-					<Detail.Metadata.Label title="Response Tokens" text={'test'} />
+					<Detail.Metadata.Label title="Current Model" text={currentModel} />
+					<Detail.Metadata.Label title="Prompt Tokens" text={promptTokenCount.toString()} />
+					<Detail.Metadata.Label title="Response Tokens" text={responseTokenCount.toString()} />
 					<Detail.Metadata.Separator />
 					<Detail.Metadata.Label title="Total Tokens" text={'test'} />
 					<Detail.Metadata.Label title="Total Cost" text={'test'} />
