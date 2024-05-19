@@ -5,12 +5,14 @@ export default function CommandResponseLayoutComponent({
 	isLoading,
 	promptTokenCount = 0,
 	responseTokenCount = 0,
+	totalCost = 'No cost',
 	currentModel
 }: {
 	response: string
 	isLoading: boolean
 	promptTokenCount: number
 	responseTokenCount: number
+	totalCost: string
 	currentModel: string
 }) {
 	return (
@@ -24,7 +26,7 @@ export default function CommandResponseLayoutComponent({
 					<Detail.Metadata.Label title="Response Tokens" text={responseTokenCount.toString()} />
 					<Detail.Metadata.Separator />
 					<Detail.Metadata.Label title="Total Tokens" text={'test'} />
-					<Detail.Metadata.Label title="Total Cost" text={'test'} />
+					<Detail.Metadata.Label title="Total Cost" text={totalCost.toString()} />
 					<Detail.Metadata.Separator />
 					<Detail.Metadata.Label title="Culmulative Tokens" text={'test'} />
 					<Detail.Metadata.Label title="Culmulative Cost" text={'test'} />

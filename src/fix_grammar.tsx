@@ -7,7 +7,8 @@ import {
 	isApiKeyConfigured,
 	showToastSelectedTextError,
 	getAiAPIClient,
-	countToken
+	countToken,
+	estimatePrice
 } from './shared/utils'
 import React from 'react'
 const { promptFixGrammar } = getPreferenceValues()
@@ -21,19 +22,22 @@ export default function FixGrammarCommand() {
 	const [response, setResponse] = React.useState('')
 	const [promptTokenCount, setPromptTokenCount] = React.useState(0)
 	const [responseTokenCount, setResponseTokenCount] = React.useState(0)
+	const [totalCost, setTotalCost] = React.useState<string>('')
 
 	const handleGetSelectedText = React.useCallback(async () => {
 		try {
 			return getSelectedText()
 		} catch (error) {
-			return `Error getting selected text: ${error}`
 			showToastSelectedTextError()
+			return `Error getting selected text: ${error}`
 		}
 	}, [])
 
 	const handleGetStream = React.useCallback(async () => {
 		const selectedText = await handleGetSelectedText()
-		setPromptTokenCount(countToken({ text: `${promptFixGrammar} ${selectedText}` }))
+		const countPromptTokens = countToken({ text: `${promptFixGrammar} ${selectedText}` })
+		setPromptTokenCount(countPromptTokens)
+		setTotalCost(estimatePrice({ promptTokenCount: countPromptTokens, responseTokenCount: 0 }))
 		setIsLoading(true)
 
 		try {
@@ -49,7 +53,14 @@ export default function FixGrammarCommand() {
 					response += chunkContent
 				}
 				setResponse(response)
-				setResponseTokenCount(countToken({ text: response }))
+				const countResponseTokens = countToken({ text: response })
+				setResponseTokenCount(countResponseTokens)
+				setTotalCost(
+					estimatePrice({
+						promptTokenCount: countPromptTokens,
+						responseTokenCount: countResponseTokens
+					})
+				)
 			}
 		} catch (error) {
 			console.error(error)
@@ -75,6 +86,7 @@ export default function FixGrammarCommand() {
 			promptTokenCount={promptTokenCount}
 			responseTokenCount={responseTokenCount}
 			currentModel={model}
+			totalCost={totalCost}
 		/>
 	)
 }

@@ -1,6 +1,7 @@
 import { Toast, getPreferenceValues, showToast } from '@raycast/api'
-import { MODEL_OWNERS, OPEN_AI_MODELS } from './constants'
+import { MODEL_OWNERS, OPEN_AI_MODELS, OPEN_AI_TOKEN_PRICING } from './constants'
 import { OpenAiClient } from './api/openai_client'
+import { values, round } from 'lodash'
 
 type Model = {
 	modelOwner: string
@@ -10,7 +11,7 @@ type Model = {
 export function getModel(): Model {
 	const { defaultModel } = getPreferenceValues()
 
-	if (OPEN_AI_MODELS.some(model => model === defaultModel)) {
+	if (values(OPEN_AI_MODELS).some(model => model === defaultModel)) {
 		return { modelOwner: MODEL_OWNERS.OPEN_AI, model: defaultModel }
 	}
 	return { modelOwner: '', model: '' }
@@ -48,4 +49,24 @@ export function countToken({ text }: { text: string }) {
 	// On average 1 token is 0,75 words https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
 	const averageWordsTokens = 0.75
 	return Math.round(numberOfWords / averageWordsTokens)
+}
+
+export function estimatePrice({
+	promptTokenCount,
+	responseTokenCount
+}: {
+	promptTokenCount: number
+	responseTokenCount: number
+}) {
+	const { defaultModel } = getPreferenceValues()
+	if (values(OPEN_AI_MODELS).some(model => model === defaultModel)) {
+		const promptPrice = (promptTokenCount * OPEN_AI_TOKEN_PRICING[defaultModel].INPUT) / 1000000
+		const resultPrice = (responseTokenCount * OPEN_AI_TOKEN_PRICING[defaultModel].OUTPUT) / 1000000
+		const totalPrice = promptPrice + resultPrice
+		if (totalPrice < 1) {
+			return `${round(totalPrice * 100, 4)} cents`
+		}
+		return `${totalPrice} $`
+	}
+	return ''
 }
