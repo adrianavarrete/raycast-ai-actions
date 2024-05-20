@@ -49,14 +49,11 @@ export default function ExecuteCommand({
 		let storedMonth
 		let storedMonthlyCost
 		let storedDailyCost
-		console.log('first storedMonth', storedMonth)
 
 		storedDayOfYear = await LocalStorage.getItem('storedDayOfYear')
 		storedMonth = await LocalStorage.getItem('storedMonth')
 		storedMonthlyCost = await LocalStorage.getItem('storedMonthlyCost')
 		storedDailyCost = await LocalStorage.getItem('storedDailyCost')
-
-		console.log({ storedDayOfYear, storedMonth, storedMonthlyCost, storedDailyCost })
 
 		if (!storedDayOfYear) {
 			storedDayOfYear = currentDayOfYear
@@ -77,8 +74,6 @@ export default function ExecuteCommand({
 			setDailyCost(storedDailyCost)
 		}
 
-		console.log('storedMonth', storedMonth)
-
 		if (currentMonth !== storedMonth) {
 			await LocalStorage.setItem('storedMonth', currentMonth)
 			await LocalStorage.setItem('storedMonthlyCost', _totalCost)
@@ -88,7 +83,6 @@ export default function ExecuteCommand({
 			await LocalStorage.setItem('storedDailyCost', _totalCost)
 		}
 		if (currentMonth === storedMonth) {
-			console.log(storedMonthlyCost)
 			await LocalStorage.setItem('storedMonthlyCost', (storedMonthlyCost as number) + _totalCost)
 			setMonthlyCost((storedMonthlyCost as number) + _totalCost)
 		}
@@ -122,7 +116,7 @@ export default function ExecuteCommand({
 				const countResponseTokens = countToken({ text: _response })
 				setResponseTokenCount(countResponseTokens)
 
-				_totalCost += estimatePrice({
+				_totalCost = estimatePrice({
 					promptTokenCount: countPromptTokens,
 					responseTokenCount: countResponseTokens
 				})

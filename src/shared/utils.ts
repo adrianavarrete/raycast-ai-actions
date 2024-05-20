@@ -76,10 +76,9 @@ export function estimatePrice({
 }
 
 export function parsePrice(number: number) {
-	console.log(`@@@@@ number pricing`, number)
 	const ONE_DOLLAR = 1
 	if (number < ONE_DOLLAR) {
-		return `${round(number, 5) * 100} cents`
+		return `${round(number * 100, 4)} cents`
 	}
 	return `${round(number, 2)} $`
 }
