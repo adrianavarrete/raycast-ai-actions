@@ -1,18 +1,23 @@
 import { Detail, ActionPanel, Action, openCommandPreferences, openExtensionPreferences } from '@raycast/api'
+import { parsePrice } from '../utils'
 
 export default function CommandResponseLayoutComponent({
 	response,
 	isLoading,
 	promptTokenCount = 0,
 	responseTokenCount = 0,
-	totalCost = 'No cost',
+	totalCost = 0,
+	dailyCost = 0,
+	monthlyCost = 0,
 	currentModel
 }: {
 	response: string
 	isLoading: boolean
 	promptTokenCount: number
 	responseTokenCount: number
-	totalCost: string
+	totalCost: number
+	dailyCost: number
+	monthlyCost: number
 	currentModel: string
 }) {
 	const totalTokens = promptTokenCount + responseTokenCount
@@ -28,7 +33,10 @@ export default function CommandResponseLayoutComponent({
 					<Detail.Metadata.Label title="Response Tokens" text={responseTokenCount.toString()} />
 					<Detail.Metadata.Separator />
 					<Detail.Metadata.Label title="Total Tokens" text={totalTokens.toString()} />
-					<Detail.Metadata.Label title="Total Cost" text={totalCost.toString()} />
+					<Detail.Metadata.Label title="Total Cost" text={parsePrice(totalCost)} />
+					<Detail.Metadata.Separator />
+					<Detail.Metadata.Label title="Spent today" text={parsePrice(dailyCost)} />
+					<Detail.Metadata.Label title="Spent this month" text={parsePrice(monthlyCost)} />
 				</Detail.Metadata>
 			}
 			actions={

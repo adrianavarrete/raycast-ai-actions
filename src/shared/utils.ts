@@ -17,6 +17,10 @@ export function getModel(): Model {
 	return { modelOwner: '', model: '' }
 }
 
+export async function showCustomToastError({ message }: { message: string }) {
+	await showToast(Toast.Style.Failure, `Error: ${message}`)
+}
+
 export async function showToastApiKeyError({ modelOwner }: { modelOwner: string }) {
 	await showToast(Toast.Style.Failure, `Error: Configure the API Key for ${modelOwner}`)
 }
@@ -65,10 +69,17 @@ export function estimatePrice({
 		const promptPrice = (promptTokenCount * OPEN_AI_TOKEN_PRICING[defaultModel].INPUT) / 1000000
 		const resultPrice = (responseTokenCount * OPEN_AI_TOKEN_PRICING[defaultModel].OUTPUT) / 1000000
 		const totalPrice = promptPrice + resultPrice
-		if (totalPrice < 1) {
-			return `${round(totalPrice * 100, 4)} cents`
-		}
-		return `${totalPrice} $`
+
+		return totalPrice
 	}
-	return ''
+	return 0
+}
+
+export function parsePrice(number: number) {
+	console.log(`@@@@@ number pricing`, number)
+	const ONE_DOLLAR = 1
+	if (number < ONE_DOLLAR) {
+		return `${round(number, 5) * 100} cents`
+	}
+	return `${round(number, 2)} $`
 }
