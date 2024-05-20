@@ -35,7 +35,7 @@ export default function CommandResponseLayoutComponent({
 				<ActionPanel title="Action panel">
 					<Action.CopyToClipboard title="Copy Response" content={response} />
 					<Action.Paste content={response} />
-					<Action title="Add API Key" onAction={() => openExtensionPreferences()} />{' '}
+					<Action title="Configure API Keys" onAction={() => openExtensionPreferences()} />{' '}
 					<Action title="Configure Command" onAction={() => openCommandPreferences()} />{' '}
 				</ActionPanel>
 			}

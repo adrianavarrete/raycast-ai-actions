@@ -41,6 +41,8 @@ export function isApiKeyConfigured({ modelOwner }: { modelOwner: string }) {
 
 export function getAiAPIClient() {
 	const { openaiApiKey } = getPreferenceValues()
+	if (!openaiApiKey) showToastApiKeyError({ modelOwner: MODEL_OWNERS.OPEN_AI })
+
 	return new OpenAiClient({ apiKey: openaiApiKey })
 }
 
