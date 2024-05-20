@@ -40,9 +40,9 @@ export default function ExecuteCommand({
 			showToastSelectedTextError()
 			return `Error getting selected text: ${error}`
 		}
-	}, [])
+	}, [getSelectedText, showToastSelectedTextError])
 
-	const handleMoneySpent = async (_totalCost: number) => {
+	const handleMoneySpent = React.useCallback(async (_totalCost: number) => {
 		const currentDayOfYear = moment().dayOfYear()
 		const currentMonth = moment().month()
 		let storedDayOfYear
@@ -90,7 +90,7 @@ export default function ExecuteCommand({
 			await LocalStorage.setItem('storedDailyCost', (storedDailyCost as number) + _totalCost)
 			setDailyCost((storedDailyCost as number) + _totalCost)
 		}
-	}
+	}, [])
 
 	const handleGetStream = React.useCallback(async () => {
 		const selectedText = await handleGetSelectedText()
@@ -129,7 +129,7 @@ export default function ExecuteCommand({
 		} finally {
 			setIsLoading(false)
 		}
-	}, [])
+	}, [handleGetSelectedText, commandPrompt, handleMoneySpent])
 
 	React.useEffect(() => {
 		if (!model) {
