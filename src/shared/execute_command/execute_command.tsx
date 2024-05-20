@@ -66,21 +66,21 @@ export default function ExecuteCommand({
 		if (!storedMonthlyCost) {
 			storedMonthlyCost = 0
 			await LocalStorage.setItem('storedMonthlyCost', 0)
-			setMonthlyCost(storedMonthlyCost)
 		}
 		if (!storedDailyCost) {
 			storedDailyCost = 0
 			await LocalStorage.setItem('storedDailyCost', 0)
-			setDailyCost(storedDailyCost)
 		}
 
 		if (currentMonth !== storedMonth) {
 			await LocalStorage.setItem('storedMonth', currentMonth)
 			await LocalStorage.setItem('storedMonthlyCost', _totalCost)
+			setMonthlyCost(_totalCost)
 		}
 		if (currentDayOfYear !== storedDayOfYear) {
 			await LocalStorage.setItem('storedDayOfYear', currentDayOfYear)
 			await LocalStorage.setItem('storedDailyCost', _totalCost)
+			setDailyCost(_totalCost)
 		}
 		if (currentMonth === storedMonth) {
 			await LocalStorage.setItem('storedMonthlyCost', (storedMonthlyCost as number) + _totalCost)
@@ -88,7 +88,7 @@ export default function ExecuteCommand({
 		}
 		if (currentDayOfYear === storedDayOfYear) {
 			await LocalStorage.setItem('storedDailyCost', (storedDailyCost as number) + _totalCost)
-			setDailyCost((storedMonthlyCost as number) + _totalCost)
+			setDailyCost((storedDailyCost as number) + _totalCost)
 		}
 	}
 
