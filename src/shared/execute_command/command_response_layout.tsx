@@ -35,8 +35,14 @@ export default function CommandResponseLayoutComponent({
 					<Detail.Metadata.Label title="Total Tokens" text={totalTokens.toString()} />
 					<Detail.Metadata.Label title="Total Cost" text={parsePrice(totalCost)} />
 					<Detail.Metadata.Separator />
-					<Detail.Metadata.Label title="Spent today" text={parsePrice(dailyCost)} />
-					<Detail.Metadata.Label title="Spent this month" text={parsePrice(monthlyCost)} />
+					<Detail.Metadata.Label
+						title="Spent today"
+						text={isLoading ? 'Loading...' : parsePrice(dailyCost)}
+					/>
+					<Detail.Metadata.Label
+						title="Spent this month"
+						text={isLoading ? 'Loading...' : parsePrice(monthlyCost)}
+					/>
 				</Detail.Metadata>
 			}
 			actions={
