@@ -43,6 +43,23 @@
           "required": false
         }
       ]
+    },
+    {
+      "name": "explain_it_in_simple_terms",
+      "title": "Explain It In Simple Terms",
+      "description": "Explain the selected text to make it understandable to every type of person, regardless of their background or knowledge level.",
+      "mode": "view",
+      "preferences": [
+        {
+          "name": "promptExplainItInSimpleTerms",
+          "title": "Explain It In Simple Terms Prompt",
+          "description": "Explain the selected text to make it understandable to every type of person, regardless of their background or knowledge level.",
+          "type": "textfield",
+          "icon": "command-icon.png",
+          "default": "I'm trying to understand something, your goal is to explain it very simple terms what is related to the input that I'm going to pass you. Remember, your goal is to make the idea understandable to every type of people. At the end,  after your explanation, send an example to make sure that I understand it.",
+          "required": false
+        }
+      ]
     }
   ],
   "dependencies": {
