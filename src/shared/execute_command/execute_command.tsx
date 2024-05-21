@@ -94,6 +94,14 @@ export default function ExecuteCommand({
 
 	const handleGetStream = React.useCallback(async () => {
 		const selectedText = await handleGetSelectedText()
+		const _commandPrompt = null
+
+		if (!_commandPrompt) {
+			const message = 'Unable to get the command prompt'
+			showCustomToastError({ message })
+			return message
+		}
+
 		const countPromptTokens = countToken({ text: `${commandPrompt} ${selectedText}` })
 		setPromptTokenCount(countPromptTokens)
 		setTotalCost(estimatePrice({ promptTokenCount: countPromptTokens, responseTokenCount: 0 }))
