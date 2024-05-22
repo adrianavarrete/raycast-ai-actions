@@ -29,11 +29,20 @@ export default function CommandResponseLayoutComponent({
 			metadata={
 				<Detail.Metadata>
 					<Detail.Metadata.Label title="Current Model" text={currentModel} />
-					<Detail.Metadata.Label title="Prompt Tokens" text={promptTokenCount.toString()} />
-					<Detail.Metadata.Label title="Response Tokens" text={responseTokenCount.toString()} />
+					<Detail.Metadata.Label
+						title="Prompt Tokens"
+						text={isLoading ? 'Loading...' : promptTokenCount.toString()}
+					/>
+					<Detail.Metadata.Label
+						title="Response Tokens"
+						text={isLoading ? 'Loading...' : responseTokenCount.toString()}
+					/>
 					<Detail.Metadata.Separator />
-					<Detail.Metadata.Label title="Total Tokens" text={totalTokens.toString()} />
-					<Detail.Metadata.Label title="Total Cost" text={parsePrice(totalCost)} />
+					<Detail.Metadata.Label
+						title="Total Tokens"
+						text={isLoading ? 'Loading...' : totalTokens.toString()}
+					/>
+					<Detail.Metadata.Label title="Total Cost" text={isLoading ? 'Loading...' : parsePrice(totalCost)} />
 					<Detail.Metadata.Separator />
 					<Detail.Metadata.Label
 						title="Spent today"

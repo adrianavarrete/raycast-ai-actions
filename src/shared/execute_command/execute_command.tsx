@@ -13,6 +13,8 @@ import {
 	showCustomToastError
 } from '../utils'
 import { OpenAiClient } from '../api/openai_client'
+import { ChatCompletionChunk } from 'openai/resources'
+import { Stream } from 'openai/streaming'
 
 export default function ExecuteCommand({
 	commandPrompt,
@@ -94,17 +96,12 @@ export default function ExecuteCommand({
 
 	const handleGetStream = React.useCallback(async () => {
 		const selectedText = await handleGetSelectedText()
-		const _commandPrompt = null
 
-		if (!_commandPrompt) {
+		if (!commandPrompt) {
 			const message = 'Unable to get the command prompt'
 			showCustomToastError({ message })
 			return message
 		}
-
-		const countPromptTokens = countToken({ text: `${commandPrompt} ${selectedText}` })
-		setPromptTokenCount(countPromptTokens)
-		setTotalCost(estimatePrice({ promptTokenCount: countPromptTokens, responseTokenCount: 0 }))
 
 		setIsLoading(true)
 		try {
@@ -113,25 +110,23 @@ export default function ExecuteCommand({
 				systemPrompt: commandPrompt,
 				model
 			})
-			let _response = ''
-			let _totalCost = 0
-			for await (const chunk of chunksStream) {
-				const chunkContent = chunk.choices[0].delta.content as string
-				if (chunkContent) {
-					_response += chunkContent
-				}
-				setResponse(_response)
-				const countResponseTokens = countToken({ text: _response })
-				setResponseTokenCount(countResponseTokens)
 
-				_totalCost = estimatePrice({
-					promptTokenCount: countPromptTokens,
-					responseTokenCount: countResponseTokens
-				})
+			const { countPromptTokens, countResponseTokens } = await parseStream({
+				chunksStream,
+				modelOwner,
+				setResponse
+			})
+			setPromptTokenCount(countPromptTokens)
+			setResponseTokenCount(countResponseTokens)
 
-				setTotalCost(_totalCost)
-			}
-			handleMoneySpent(_totalCost)
+			const totalStreamCost = estimatePrice({
+				promptTokenCount: countPromptTokens,
+				responseTokenCount: countResponseTokens
+			})
+
+			setTotalCost(totalStreamCost)
+
+			handleMoneySpent(totalStreamCost)
 		} catch (error) {
 			showCustomToastError({ message: 'Connection with OpenAI cannot be established' })
 		} finally {
@@ -161,4 +156,29 @@ export default function ExecuteCommand({
 			monthlyCost={monthlyCost}
 		/>
 	)
+
+	// Helpers //
+
+	async function parseStream({
+		chunksStream,
+		modelOwner,
+		setResponse
+	}: {
+		chunksStream: Stream<ChatCompletionChunk>
+		modelOwner: string
+		setResponse: React.Dispatch<React.SetStateAction<string>>
+	}) {
+		const countPromptTokens = countToken({ text: `${commandPrompt}` })
+		let _response = ''
+		for await (const chunk of chunksStream) {
+			const chunkContent = chunk.choices[0].delta.content as string
+			if (chunkContent) {
+				_response += chunkContent
+			}
+			setResponse(_response)
+		}
+		const countResponseTokens = countToken({ text: _response })
+
+		return { countPromptTokens, countResponseTokens }
+	}
 }
