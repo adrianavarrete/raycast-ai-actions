@@ -94,9 +94,8 @@ export default function ExecuteCommand({
 
 	const handleGetStream = React.useCallback(async () => {
 		const selectedText = await handleGetSelectedText()
-		const _commandPrompt = null
 
-		if (!_commandPrompt) {
+		if (!commandPrompt) {
 			const message = 'Unable to get the command prompt'
 			showCustomToastError({ message })
 			return message
