@@ -5,7 +5,7 @@ import ExecuteCommand from './shared/execute_command/execute_command'
 const { promptExplainItInSimpleTerms } = getPreferenceValues()
 
 export default function FixGrammarCommand() {
-	const { modelOwner, model } = getModel()
+	const { modelOwner, modelName, modelCode } = getModel()
 
 	const aiApiClient = getAiAPIClient()
 
@@ -14,7 +14,8 @@ export default function FixGrammarCommand() {
 			commandPrompt={promptExplainItInSimpleTerms}
 			aiApiClient={aiApiClient}
 			modelOwner={modelOwner}
-			model={model}
+			modelName={modelName}
+			modelCode={modelCode}
 		/>
 	)
 }

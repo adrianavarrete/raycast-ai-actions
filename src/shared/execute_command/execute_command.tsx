@@ -20,12 +20,14 @@ export default function ExecuteCommand({
 	commandPrompt,
 	aiApiClient,
 	modelOwner,
-	model
+	modelCode,
+	modelName
 }: {
 	commandPrompt: string
 	aiApiClient: OpenAiClient
 	modelOwner: string
-	model: string
+	modelCode: string
+	modelName: string
 }) {
 	const [isLoading, setIsLoading] = React.useState(false)
 	const [response, setResponse] = React.useState('')
@@ -108,16 +110,16 @@ export default function ExecuteCommand({
 			const chunksStream = await aiApiClient.createStream({
 				selectedText: selectedText,
 				systemPrompt: commandPrompt,
-				model
+				modelCode
 			})
 
 			const { countPromptTokens, countResponseTokens } = await parseStream({
 				chunksStream,
 				modelOwner,
-				setResponse
+				setResponse,
+				setPromptTokenCount,
+				setResponseTokenCount
 			})
-			setPromptTokenCount(countPromptTokens)
-			setResponseTokenCount(countResponseTokens)
 
 			const totalStreamCost = estimatePrice({
 				promptTokenCount: countPromptTokens,
@@ -125,7 +127,6 @@ export default function ExecuteCommand({
 			})
 
 			setTotalCost(totalStreamCost)
-
 			handleMoneySpent(totalStreamCost)
 		} catch (error) {
 			showCustomToastError({ message: 'Connection with OpenAI cannot be established' })
@@ -135,14 +136,14 @@ export default function ExecuteCommand({
 	}, [handleGetSelectedText, commandPrompt, handleMoneySpent])
 
 	React.useEffect(() => {
-		if (!model) {
+		if (!modelCode) {
 			showToastModelError()
 		}
-		if (!isApiKeyConfigured({ modelOwner })) {
+		if (!isApiKeyConfigured()) {
 			showToastApiKeyError({ modelOwner })
 		}
 		handleGetStream()
-	}, [model, modelOwner, handleGetStream])
+	}, [modelCode, modelOwner, handleGetStream])
 
 	return (
 		<CommandResponseLayoutComponent
@@ -150,7 +151,7 @@ export default function ExecuteCommand({
 			isLoading={isLoading}
 			promptTokenCount={promptTokenCount}
 			responseTokenCount={responseTokenCount}
-			currentModel={model}
+			currentModel={modelName}
 			totalCost={totalCost}
 			dailyCost={dailyCost}
 			monthlyCost={monthlyCost}
@@ -162,13 +163,19 @@ export default function ExecuteCommand({
 	async function parseStream({
 		chunksStream,
 		modelOwner,
-		setResponse
+		setResponse,
+		setResponseTokenCount,
+		setPromptTokenCount
 	}: {
 		chunksStream: Stream<ChatCompletionChunk>
 		modelOwner: string
 		setResponse: React.Dispatch<React.SetStateAction<string>>
+		setResponseTokenCount: React.Dispatch<React.SetStateAction<number>>
+		setPromptTokenCount: React.Dispatch<React.SetStateAction<number>>
 	}) {
 		const countPromptTokens = countToken({ text: `${commandPrompt}` })
+		setPromptTokenCount(countPromptTokens)
+
 		let _response = ''
 		for await (const chunk of chunksStream) {
 			const chunkContent = chunk.choices[0].delta.content as string
@@ -176,7 +183,9 @@ export default function ExecuteCommand({
 				_response += chunkContent
 			}
 			setResponse(_response)
+			setResponseTokenCount(countToken({ text: _response }))
 		}
+
 		const countResponseTokens = countToken({ text: _response })
 
 		return { countPromptTokens, countResponseTokens }

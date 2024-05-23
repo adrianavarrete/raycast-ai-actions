@@ -1,20 +1,22 @@
 import { Toast, getPreferenceValues, showToast } from '@raycast/api'
-import { MODEL_OWNERS, OPEN_AI_MODELS, OPEN_AI_TOKEN_PRICING } from './constants'
+import { MODEL_OWNERS, MODELS, TOKEN_PRICING } from './constants'
 import { OpenAiClient } from './api/openai_client'
-import { values, round } from 'lodash'
+import { round } from 'lodash'
 
 type Model = {
 	modelOwner: string
-	model: string
+	modelName: string
+	modelCode: string
 }
 
 export function getModel(): Model {
-	const { defaultModel } = getPreferenceValues()
+	const { defaultModelName } = getPreferenceValues()
 
-	if (values(OPEN_AI_MODELS).some(model => model === defaultModel)) {
-		return { modelOwner: MODEL_OWNERS.OPEN_AI, model: defaultModel }
+	return {
+		modelOwner: MODELS[defaultModelName].OWNER,
+		modelName: MODELS[defaultModelName].NAME,
+		modelCode: MODELS[defaultModelName].CODE
 	}
-	return { modelOwner: '', model: '' }
 }
 
 export async function showCustomToastError({ message }: { message: string }) {
@@ -32,8 +34,9 @@ export async function showToastModelError() {
 export async function showToastSelectedTextError() {
 	await showToast(Toast.Style.Failure, `Error: Text has not been selected`)
 }
-export function isApiKeyConfigured({ modelOwner }: { modelOwner: string }) {
+export function isApiKeyConfigured() {
 	const { openaiApiKey } = getPreferenceValues()
+	const { modelOwner } = getModel()
 
 	switch (modelOwner) {
 		case MODEL_OWNERS.OPEN_AI:
@@ -64,15 +67,12 @@ export function estimatePrice({
 	promptTokenCount: number
 	responseTokenCount: number
 }) {
-	const { defaultModel } = getPreferenceValues()
-	if (values(OPEN_AI_MODELS).some(model => model === defaultModel)) {
-		const promptPrice = (promptTokenCount * OPEN_AI_TOKEN_PRICING[defaultModel].INPUT) / 1000000
-		const resultPrice = (responseTokenCount * OPEN_AI_TOKEN_PRICING[defaultModel].OUTPUT) / 1000000
-		const totalPrice = promptPrice + resultPrice
+	const { modelCode } = getModel()
+	const promptPrice = (promptTokenCount * TOKEN_PRICING[modelCode].INPUT) / 1000000
+	const resultPrice = (responseTokenCount * TOKEN_PRICING[modelCode].OUTPUT) / 1000000
+	const totalPrice = promptPrice + resultPrice
 
-		return totalPrice
-	}
-	return 0
+	return totalPrice
 }
 
 export function parsePrice(number: number) {

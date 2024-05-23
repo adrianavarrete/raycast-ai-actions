@@ -71,17 +71,17 @@
   },
   "preferences": [
     {
-      "name": "defaultModel",
+      "name": "defaultModelName",
       "description": "default model for your AI Actions",
       "type": "dropdown",
       "data": [
         {
           "title": "OpenAI - GPT-3.5 Turbo",
-          "value": "gpt-3.5-turbo"
+          "value": "GPT_35_TURBO"
         },
         {
           "title": "OpenAI - GPT-4o",
-          "value": "gpt-4o"
+          "value": "GPT_4_OMNI"
         }
       ],
       "required": true,

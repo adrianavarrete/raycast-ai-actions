@@ -9,14 +9,14 @@ export class OpenAiClient {
 	createStream({
 		selectedText,
 		systemPrompt,
-		model
+		modelCode
 	}: {
 		selectedText: string
 		systemPrompt: string
-		model: string
+		modelCode: string
 	}) {
 		return this.openai.chat.completions.create({
-			model,
+			model: modelCode,
 			messages: [
 				{ role: 'system', content: systemPrompt },
 				{ role: 'user', content: selectedText }
