@@ -15,6 +15,9 @@ import {
 import { OpenAiClient } from '../api/openai_client'
 import { ChatCompletionChunk } from 'openai/resources'
 import { Stream } from 'openai/streaming'
+import { AnthropicClient } from '../api/anthropic_client'
+import { Anthropic } from '@anthropic-ai/sdk'
+import { MODEL_OWNERS } from '../constants'
 
 export default function ExecuteCommand({
 	commandPrompt,
@@ -24,7 +27,7 @@ export default function ExecuteCommand({
 	modelName
 }: {
 	commandPrompt: string
-	aiApiClient: OpenAiClient
+	aiApiClient: OpenAiClient | AnthropicClient
 	modelOwner: string
 	modelCode: string
 	modelName: string
@@ -167,18 +170,39 @@ export default function ExecuteCommand({
 		setResponseTokenCount,
 		setPromptTokenCount
 	}: {
-		chunksStream: Stream<ChatCompletionChunk>
+		chunksStream: Stream<ChatCompletionChunk> | Stream<Anthropic.Messages.MessageStreamEvent>
 		modelOwner: string
 		setResponse: React.Dispatch<React.SetStateAction<string>>
 		setResponseTokenCount: React.Dispatch<React.SetStateAction<number>>
 		setPromptTokenCount: React.Dispatch<React.SetStateAction<number>>
 	}) {
+		if (modelOwner === MODEL_OWNERS.ANTHROPIC) {
+			const countPromptTokens = countToken({ text: `${commandPrompt}` })
+			setPromptTokenCount(countPromptTokens)
+
+			let _response = ''
+			for await (const chunk of chunksStream) {
+				const _chunk = chunk as ChatCompletionChunk
+				const chunkContent = _chunk.choices[0].delta.content as string
+				if (chunkContent) {
+					_response += chunkContent
+				}
+				setResponse(_response)
+				setResponseTokenCount(countToken({ text: _response }))
+			}
+
+			const countResponseTokens = countToken({ text: _response })
+
+			return { countPromptTokens, countResponseTokens }
+		}
+
 		const countPromptTokens = countToken({ text: `${commandPrompt}` })
 		setPromptTokenCount(countPromptTokens)
 
 		let _response = ''
 		for await (const chunk of chunksStream) {
-			const chunkContent = chunk.choices[0].delta.content as string
+			const _chunk = chunk as ChatCompletionChunk
+			const chunkContent = _chunk.choices[0].delta.content as string
 			if (chunkContent) {
 				_response += chunkContent
 			}

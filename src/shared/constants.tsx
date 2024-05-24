@@ -50,5 +50,17 @@ export const TOKEN_PRICING = {
 	[MODELS.GPT_4_OMNI.CODE]: {
 		INPUT: 5, // 5$ per 1M tokens
 		OUTPUT: 15 // 15$ per 1M tokens
+	},
+	[MODELS.CLAUDE_3_HAIKU.CODE]: {
+		INPUT: 0.25, // 0.25$ per 1M tokens
+		OUTPUT: 1.25 // 1.25$ per 1M tokens
+	},
+	[MODELS.CLAUDE_3_SONNET.CODE]: {
+		INPUT: 3, // 3$ per 1M tokens
+		OUTPUT: 15 // 15$ per 1M tokens
+	},
+	[MODELS.CLAUDE_3_OPUS.CODE]: {
+		INPUT: 15, // 15$ per 1M tokens
+		OUTPUT: 75 // 75$ per 1M tokens
 	}
 }

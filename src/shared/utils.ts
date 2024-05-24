@@ -2,6 +2,7 @@ import { Toast, getPreferenceValues, showToast } from '@raycast/api'
 import { MODEL_OWNERS, MODELS, TOKEN_PRICING } from './constants'
 import { OpenAiClient } from './api/openai_client'
 import { round } from 'lodash'
+import { AnthropicClient } from './api/anthropic_client'
 
 type Model = {
 	modelOwner: string
@@ -47,10 +48,17 @@ export function isApiKeyConfigured() {
 }
 
 export function getAiAPIClient() {
-	const { openaiApiKey } = getPreferenceValues()
-	if (!openaiApiKey) showToastApiKeyError({ modelOwner: MODEL_OWNERS.OPEN_AI })
+	const { modelOwner } = getModel()
+	if (modelOwner === MODEL_OWNERS.OPEN_AI) {
+		const { openaiApiKey } = getPreferenceValues()
+		if (!openaiApiKey) showToastApiKeyError({ modelOwner: MODEL_OWNERS.OPEN_AI })
 
-	return new OpenAiClient({ apiKey: openaiApiKey })
+		return new OpenAiClient({ apiKey: openaiApiKey })
+	}
+	const { anthropicApiKey } = getPreferenceValues()
+	if (!anthropicApiKey) showToastApiKeyError({ modelOwner: MODEL_OWNERS.ANTHROPIC })
+
+	return new AnthropicClient({ apiKey: anthropicApiKey })
 }
 
 export function countToken({ text }: { text: string }) {

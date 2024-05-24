@@ -9,17 +9,17 @@ export class AnthropicClient {
 	createStream({
 		selectedText,
 		systemPrompt,
-		model
+		modelCode
 	}: {
 		selectedText: string
 		systemPrompt: string
-		model: string
+		modelCode: string
 	}) {
 		const _prompt = `${systemPrompt}, this is the text: ${selectedText}`
-		this.anthropic.messages.create({
+		return this.anthropic.messages.create({
 			max_tokens: 1024,
 			messages: [{ role: 'user', content: _prompt }],
-			model,
+			model: modelCode,
 			stream: true
 		})
 	}
