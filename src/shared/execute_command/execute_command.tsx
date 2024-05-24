@@ -12,12 +12,15 @@ import {
 	estimatePrice,
 	showCustomToastError
 } from '../utils'
-import { OpenAiClient } from '../api/openai_client'
 import { ChatCompletionChunk } from 'openai/resources'
-import { Stream } from 'openai/streaming'
+import { Stream as OpenAiStream } from 'openai/streaming'
+import { Stream as AnthropicAiStream } from '@anthropic-ai/sdk/streaming'
+
 import { AnthropicClient } from '../api/anthropic_client'
-import { Anthropic } from '@anthropic-ai/sdk'
+import { OpenAiClient } from '../api/openai_client'
+
 import { MODEL_OWNERS } from '../constants'
+import { MessageStreamEvent } from '@anthropic-ai/sdk/resources'
 
 export default function ExecuteCommand({
 	commandPrompt,
@@ -110,14 +113,14 @@ export default function ExecuteCommand({
 
 		setIsLoading(true)
 		try {
-			const chunksStream = await aiApiClient.createStream({
+			const messageStream = await aiApiClient.createStream({
 				selectedText: selectedText,
 				systemPrompt: commandPrompt,
 				modelCode
 			})
 
 			const { countPromptTokens, countResponseTokens } = await parseStream({
-				chunksStream,
+				messageStream,
 				modelOwner,
 				setResponse,
 				setPromptTokenCount,
@@ -164,34 +167,51 @@ export default function ExecuteCommand({
 	// Helpers //
 
 	async function parseStream({
-		chunksStream,
+		messageStream,
 		modelOwner,
 		setResponse,
 		setResponseTokenCount,
 		setPromptTokenCount
 	}: {
-		chunksStream: Stream<ChatCompletionChunk> | Stream<Anthropic.Messages.MessageStreamEvent>
+		messageStream: OpenAiStream<ChatCompletionChunk> | AnthropicAiStream<MessageStreamEvent>
 		modelOwner: string
 		setResponse: React.Dispatch<React.SetStateAction<string>>
 		setResponseTokenCount: React.Dispatch<React.SetStateAction<number>>
 		setPromptTokenCount: React.Dispatch<React.SetStateAction<number>>
 	}) {
 		if (modelOwner === MODEL_OWNERS.ANTHROPIC) {
-			const countPromptTokens = countToken({ text: `${commandPrompt}` })
-			setPromptTokenCount(countPromptTokens)
+			let countPromptTokens = 0
+			let countResponseTokens = 0
 
 			let _response = ''
-			for await (const chunk of chunksStream) {
-				const _chunk = chunk as ChatCompletionChunk
-				const chunkContent = _chunk.choices[0].delta.content as string
-				if (chunkContent) {
-					_response += chunkContent
-				}
-				setResponse(_response)
-				setResponseTokenCount(countToken({ text: _response }))
-			}
 
-			const countResponseTokens = countToken({ text: _response })
+			for await (const messageStreamEvent of messageStream) {
+				const _messageStreamEvent = messageStreamEvent as MessageStreamEvent
+				const { type: messageType } = _messageStreamEvent
+
+				if (messageType === 'message_start') {
+					const inputTokens = _messageStreamEvent.message.usage.input_tokens
+					setPromptTokenCount(inputTokens)
+					countPromptTokens = inputTokens
+				}
+				if (messageType === 'content_block_delta') {
+					const messageContent = _messageStreamEvent.delta.text
+					if (messageContent) {
+						_response += messageContent
+					}
+
+					setResponseTokenCount(countToken({ text: _response }))
+				}
+
+				setResponse(_response)
+
+				if (messageType === 'message_delta') {
+					{
+						setResponseTokenCount(_messageStreamEvent.usage.output_tokens)
+						countResponseTokens = _messageStreamEvent.usage.output_tokens
+					}
+				}
+			}
 
 			return { countPromptTokens, countResponseTokens }
 		}
@@ -200,7 +220,7 @@ export default function ExecuteCommand({
 		setPromptTokenCount(countPromptTokens)
 
 		let _response = ''
-		for await (const chunk of chunksStream) {
+		for await (const chunk of messageStream) {
 			const _chunk = chunk as ChatCompletionChunk
 			const chunkContent = _chunk.choices[0].delta.content as string
 			if (chunkContent) {
