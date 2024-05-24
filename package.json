@@ -82,6 +82,18 @@
         {
           "title": "OpenAI - GPT-4o",
           "value": "GPT_4_OMNI"
+        },
+        {
+          "title": "Anthropic - Claude 3 Haiku",
+          "value": "CLAUDE_3_HAIKU"
+        },
+        {
+          "title": "Anthropic - Claude 3 Sonnet",
+          "value": "CLAUDE_3_SONNET"
+        },
+        {
+          "title": "Anthropic - Claude 3 Opus",
+          "value": "CLAUDE_3_OPUS"
         }
       ],
       "required": true,
@@ -91,8 +103,15 @@
       "name": "openaiApiKey",
       "description": "Your OpenAI API Key",
       "type": "password",
-      "required": true,
+      "required": false,
       "title": "OpenAI API Key"
+    },
+    {
+      "name": "anthropicApiKey",
+      "description": "Your Anthropic API Key",
+      "type": "password",
+      "required": false,
+      "title": "Anthropic API Key"
     }
   ],
   "devDependencies": {

@@ -36,12 +36,14 @@ export async function showToastSelectedTextError() {
 	await showToast(Toast.Style.Failure, `Error: Text has not been selected`)
 }
 export function isApiKeyConfigured() {
-	const { openaiApiKey } = getPreferenceValues()
+	const { openaiApiKey, anthropicApiKey } = getPreferenceValues()
 	const { modelOwner } = getModel()
 
 	switch (modelOwner) {
 		case MODEL_OWNERS.OPEN_AI:
 			return Boolean(openaiApiKey)
+		case MODEL_OWNERS.ANTHROPIC:
+			return Boolean(anthropicApiKey)
 		default:
 			return false
 	}
