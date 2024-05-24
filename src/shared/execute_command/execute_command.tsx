@@ -132,21 +132,21 @@ export default function ExecuteCommand({
 			setTotalCost(totalStreamCost)
 			handleMoneySpent(totalStreamCost)
 		} catch (error) {
-			showCustomToastError({ message: 'Connection with OpenAI cannot be established' })
+			if (!modelCode) {
+				return showToastModelError()
+			}
+			if (!isApiKeyConfigured()) {
+				return showToastApiKeyError({ modelOwner })
+			}
+			return showCustomToastError({ message: `Connection with ${modelOwner} cannot be established` })
 		} finally {
 			setIsLoading(false)
 		}
 	}, [handleGetSelectedText, commandPrompt, handleMoneySpent])
 
 	React.useEffect(() => {
-		if (!modelCode) {
-			showToastModelError()
-		}
-		if (!isApiKeyConfigured()) {
-			showToastApiKeyError({ modelOwner })
-		}
 		handleGetStream()
-	}, [modelCode, modelOwner, handleGetStream])
+	}, [handleGetStream])
 
 	return (
 		<CommandResponseLayoutComponent
