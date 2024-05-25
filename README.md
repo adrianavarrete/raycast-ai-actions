@@ -1,6 +1,10 @@
 # AI Actions extension for Raycast macOS app
 
+<img src="https://github.com/adrianavarrete/raycast-ai-actions/blob/master/assets/Ai%20Actions%20logo.png" alt="OpenAI Logo" width="300 " height="300">
+
 Make AI actions by selecting text in your Mac apps using your favorite models directly from Raycast, without logging in to their platforms; currently, the extension has integration with OpenAI and Anthropic:
+
+
 
 ### OpenAI
 
