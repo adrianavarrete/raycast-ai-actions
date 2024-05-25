@@ -16,11 +16,13 @@ import { ChatCompletionChunk } from 'openai/resources'
 import { Stream as OpenAiStream } from 'openai/streaming'
 import { Stream as AnthropicAiStream } from '@anthropic-ai/sdk/streaming'
 
-import { AnthropicClient } from '../api/anthropic_client'
-import { OpenAiClient } from '../api/openai_client'
+import { AnthropicClient } from '../api/anthropic/anthropic_client'
+import { OpenAiClient } from '../api/openai/openai_client'
 
 import { MODEL_OWNERS } from '../constants'
 import { MessageStreamEvent } from '@anthropic-ai/sdk/resources'
+import { isOpenAIError, openAIErrorMessage } from '../api/openai/openai_errors'
+import { anthropicErrorMessage, isAnthropicError } from '../api/anthropic/anthropic_errors'
 
 export default function ExecuteCommand({
 	commandPrompt,
@@ -105,12 +107,6 @@ export default function ExecuteCommand({
 	const handleGetStream = React.useCallback(async () => {
 		const selectedText = await handleGetSelectedText()
 
-		if (!commandPrompt) {
-			const message = 'Unable to get the command prompt'
-			showCustomToastError({ message })
-			return message
-		}
-
 		setIsLoading(true)
 		try {
 			const messageStream = await aiApiClient.createStream({
@@ -141,7 +137,15 @@ export default function ExecuteCommand({
 			if (!isApiKeyConfigured()) {
 				return showToastApiKeyError({ modelOwner })
 			}
-			return showCustomToastError({ message: `Connection with ${modelOwner} cannot be established` })
+			if (!commandPrompt) {
+				return showCustomToastError({ message: 'Unable to get command prompt.' })
+			}
+			if (isOpenAIError(error)) {
+				return showCustomToastError({ message: openAIErrorMessage(error) })
+			}
+			if (isAnthropicError(error)) {
+				return showCustomToastError({ message: anthropicErrorMessage(error) })
+			}
 		} finally {
 			setIsLoading(false)
 		}

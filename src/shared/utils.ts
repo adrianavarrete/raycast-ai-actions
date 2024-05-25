@@ -1,8 +1,8 @@
 import { Toast, getPreferenceValues, showToast } from '@raycast/api'
 import { MODEL_OWNERS, MODELS, TOKEN_PRICING } from './constants'
-import { OpenAiClient } from './api/openai_client'
+import { OpenAiClient } from './api/openai/openai_client'
 import { round } from 'lodash'
-import { AnthropicClient } from './api/anthropic_client'
+import { AnthropicClient } from './api/anthropic/anthropic_client'
 
 type Model = {
 	modelOwner: string
