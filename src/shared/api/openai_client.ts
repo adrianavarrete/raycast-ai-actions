@@ -9,11 +9,13 @@ export class OpenAiClient {
 	createStream({
 		selectedText,
 		systemPrompt,
-		modelCode
+		modelCode,
+		temperature = 0.5
 	}: {
 		selectedText: string
 		systemPrompt: string
 		modelCode: string
+		temperature?: number
 	}) {
 		return this.openai.chat.completions.create({
 			model: modelCode,
@@ -21,7 +23,8 @@ export class OpenAiClient {
 				{ role: 'system', content: systemPrompt },
 				{ role: 'user', content: selectedText }
 			],
-			stream: true
+			stream: true,
+			temperature: temperature * 2
 		})
 	}
 }
