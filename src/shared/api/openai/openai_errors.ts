@@ -1,7 +1,6 @@
 import { OpenAIError } from 'openai/error'
 
 export function isOpenAIError(error: unknown) {
-	console.log(`error`, error)
 	return error instanceof OpenAIError
 }
 

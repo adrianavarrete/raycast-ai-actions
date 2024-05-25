@@ -19,7 +19,6 @@ export function anthropicErrorMessage(apiError: unknown) {
 		return apiError.message
 	}
 	if (apiError && apiError instanceof APIError) {
-		console.log(apiError)
 		const _apiError = apiError?.error as AnthropicErrorObject
 		return `${apiError.status} ${_apiError?.error.message}`
 	}
