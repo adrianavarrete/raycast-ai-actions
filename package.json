@@ -3,7 +3,7 @@
   "name": "ai-actions",
   "title": "AI Actions",
   "description": "Make AI actions from your favorite models directly from Raycast without logging in to their platforms",
-  "icon": "command-icon.png",
+  "icon": "ai_actions.png",
   "author": "adria_navarrete",
   "categories": [
     "Productivity"
@@ -15,7 +15,7 @@
       "title": "Fix Spelling and Grammar",
       "description": "Detects the writer's language and rewrites the text with corrected spelling, grammar, and punctuation. The improved text is then presented with highlighted changes, making it easier to identify corrections.",
       "mode": "view",
-      "icon": "command-icon.png",
+      "icon": "ai_actions.png",
       "preferences": [
         {
           "name": "promptFixGrammar",
@@ -32,7 +32,7 @@
       "title": "Summary",
       "description": "A concise overview, highlighting key points and takeaways.",
       "mode": "view",
-      "icon": "command-icon.png",
+      "icon": "ai_actions.png",
       "preferences": [
         {
           "name": "promptSummarize",
@@ -49,6 +49,7 @@
       "title": "Explain It In Simple Terms",
       "description": "Explain the selected text to make it understandable to every type of person, regardless of their background or knowledge level.",
       "mode": "view",
+      "icon": "ai_actions.png",
       "preferences": [
         {
           "name": "promptExplainItInSimpleTerms",
