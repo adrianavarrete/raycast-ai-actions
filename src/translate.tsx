@@ -2,15 +2,15 @@ import { LaunchProps, getPreferenceValues } from '@raycast/api'
 import { getAiAPIClient, getModel } from './shared/utils'
 import ExecuteCommand from './shared/execute_command/execute_command'
 
-const { promptTranslate } = getPreferenceValues()
+const { promptTranslate, commandCustomModelName } = getPreferenceValues()
 
 export default function TranslateCommand(props: LaunchProps<{ arguments: Arguments.Translate }>) {
+	const { modelOwner, modelName, modelCode } = getModel(commandCustomModelName)
+
+	const aiApiClient = getAiAPIClient(modelOwner)
+
 	const { language } = props.arguments
-	const { modelOwner, modelName, modelCode } = getModel()
-
 	const finalPrompt = promptTranslate + ` ${language}`
-
-	const aiApiClient = getAiAPIClient()
 
 	return (
 		<ExecuteCommand

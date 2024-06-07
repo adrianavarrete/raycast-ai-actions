@@ -10,7 +10,15 @@ type Model = {
 	modelCode: string
 }
 
-export function getModel(): Model {
+export function getModel(commandCustomModelName: string): Model {
+	if (commandCustomModelName) {
+		return {
+			modelOwner: MODELS[commandCustomModelName].OWNER,
+			modelName: MODELS[commandCustomModelName].NAME,
+			modelCode: MODELS[commandCustomModelName].CODE
+		}
+	}
+
 	const { defaultModelName } = getPreferenceValues()
 
 	return {
@@ -35,9 +43,8 @@ export async function showToastModelError() {
 export async function showToastSelectedTextError() {
 	await showToast(Toast.Style.Failure, `Error: Text has not been selected`)
 }
-export function isApiKeyConfigured() {
+export function isApiKeyConfigured(modelOwner: string) {
 	const { openaiApiKey, anthropicApiKey } = getPreferenceValues()
-	const { modelOwner } = getModel()
 
 	switch (modelOwner) {
 		case MODEL_OWNERS.OPEN_AI:
@@ -49,8 +56,7 @@ export function isApiKeyConfigured() {
 	}
 }
 
-export function getAiAPIClient() {
-	const { modelOwner } = getModel()
+export function getAiAPIClient(modelOwner: string) {
 	if (modelOwner === MODEL_OWNERS.OPEN_AI) {
 		const { openaiApiKey } = getPreferenceValues()
 		if (!openaiApiKey) showToastApiKeyError({ modelOwner: MODEL_OWNERS.OPEN_AI })
@@ -72,12 +78,13 @@ export function countToken({ text }: { text: string }) {
 
 export function estimatePrice({
 	promptTokenCount,
-	responseTokenCount
+	responseTokenCount,
+	modelCode
 }: {
 	promptTokenCount: number
 	responseTokenCount: number
+	modelCode: string
 }) {
-	const { modelCode } = getModel()
 	const promptPrice = (promptTokenCount * TOKEN_PRICING[modelCode].INPUT) / 1000000
 	const resultPrice = (responseTokenCount * TOKEN_PRICING[modelCode].OUTPUT) / 1000000
 	const totalPrice = promptPrice + resultPrice

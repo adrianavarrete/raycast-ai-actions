@@ -2,12 +2,12 @@ import { getPreferenceValues } from '@raycast/api'
 import { getAiAPIClient, getModel } from './shared/utils'
 import ExecuteCommand from './shared/execute_command/execute_command'
 
-const { promptSummarize } = getPreferenceValues()
+const { promptSummarize, commandCustomModelName } = getPreferenceValues()
 
 export default function SummarizeCommand() {
-	const { modelOwner, modelName, modelCode } = getModel()
+	const { modelOwner, modelName, modelCode } = getModel(commandCustomModelName)
 
-	const aiApiClient = getAiAPIClient()
+	const aiApiClient = getAiAPIClient(modelOwner)
 
 	return (
 		<ExecuteCommand

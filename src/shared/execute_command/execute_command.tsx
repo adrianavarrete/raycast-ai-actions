@@ -125,7 +125,8 @@ export default function ExecuteCommand({
 
 			const totalStreamCost = estimatePrice({
 				promptTokenCount: countPromptTokens,
-				responseTokenCount: countResponseTokens
+				responseTokenCount: countResponseTokens,
+				modelCode
 			})
 
 			setTotalCost(totalStreamCost)
@@ -134,7 +135,7 @@ export default function ExecuteCommand({
 			if (!modelCode) {
 				return showToastModelError()
 			}
-			if (!isApiKeyConfigured()) {
+			if (!isApiKeyConfigured(modelOwner)) {
 				return showToastApiKeyError({ modelOwner })
 			}
 			if (!commandPrompt) {
