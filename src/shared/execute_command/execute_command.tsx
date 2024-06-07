@@ -122,8 +122,6 @@ export default function ExecuteCommand({
 					setResponseTokenCount
 				})
 
-				console.log({ countPromptTokens, countResponseTokens })
-
 				const totalStreamCost = estimatePrice({
 					promptTokenCount: countPromptTokens,
 					responseTokenCount: countResponseTokens,
