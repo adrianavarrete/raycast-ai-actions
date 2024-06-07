@@ -24,7 +24,8 @@ export class OpenAiClient {
 				{ role: 'user', content: selectedText }
 			],
 			stream: true,
-			temperature: temperature * 2
+			temperature: temperature * 2,
+			stream_options: { include_usage: true }
 		})
 	}
 }

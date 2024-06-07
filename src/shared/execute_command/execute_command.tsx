@@ -106,33 +106,55 @@ export default function ExecuteCommand({
 
 	const handleGetStream = React.useCallback(async () => {
 		const selectedText = await handleGetSelectedText()
-
 		setIsLoading(true)
 		try {
-			const messageStream = await aiApiClient.createStream({
+			const _messageStream = await aiApiClient.createStream({
 				selectedText: selectedText,
 				systemPrompt: commandPrompt,
 				modelCode
 			})
 
-			const { countPromptTokens, countResponseTokens } = await parseStream({
-				messageStream,
-				modelOwner,
-				setResponse,
-				setPromptTokenCount,
-				setResponseTokenCount
-			})
+			if (modelOwner === MODEL_OWNERS.ANTHROPIC) {
+				const { countPromptTokens, countResponseTokens } = await _parseAnthropicStream({
+					messageStream: _messageStream as AnthropicAiStream<MessageStreamEvent>,
+					setResponse,
+					setPromptTokenCount,
+					setResponseTokenCount
+				})
 
-			const totalStreamCost = estimatePrice({
-				promptTokenCount: countPromptTokens,
-				responseTokenCount: countResponseTokens,
-				modelCode
-			})
+				console.log({ countPromptTokens, countResponseTokens })
 
-			setTotalCost(totalStreamCost)
-			handleMoneySpent(totalStreamCost)
+				const totalStreamCost = estimatePrice({
+					promptTokenCount: countPromptTokens,
+					responseTokenCount: countResponseTokens,
+					modelCode
+				})
+
+				setTotalCost(totalStreamCost)
+				handleMoneySpent(totalStreamCost)
+				return
+			}
+			if (modelOwner === MODEL_OWNERS.OPEN_AI) {
+				const { countPromptTokens, countResponseTokens } = await _parseOpenAIStream({
+					messageStream: _messageStream as OpenAiStream<ChatCompletionChunk>,
+					setResponse,
+					setPromptTokenCount,
+					setResponseTokenCount
+				})
+
+				const totalStreamCost = estimatePrice({
+					promptTokenCount: countPromptTokens,
+					responseTokenCount: countResponseTokens,
+					modelCode
+				})
+
+				setTotalCost(totalStreamCost)
+				handleMoneySpent(totalStreamCost)
+				return
+			}
+			throw new Error('modelOwner is not defined')
 		} catch (error) {
-			if (!modelCode) {
+			if (!modelCode || !modelOwner) {
 				return showToastModelError()
 			}
 			if (!isApiKeyConfigured(modelOwner)) {
@@ -171,71 +193,88 @@ export default function ExecuteCommand({
 
 	// Helpers //
 
-	async function parseStream({
+	async function _parseAnthropicStream({
 		messageStream,
-		modelOwner,
 		setResponse,
 		setResponseTokenCount,
 		setPromptTokenCount
 	}: {
-		messageStream: OpenAiStream<ChatCompletionChunk> | AnthropicAiStream<MessageStreamEvent>
-		modelOwner: string
+		messageStream: AnthropicAiStream<MessageStreamEvent>
 		setResponse: React.Dispatch<React.SetStateAction<string>>
 		setResponseTokenCount: React.Dispatch<React.SetStateAction<number>>
 		setPromptTokenCount: React.Dispatch<React.SetStateAction<number>>
 	}) {
-		if (modelOwner === MODEL_OWNERS.ANTHROPIC) {
-			let countPromptTokens = 0
-			let countResponseTokens = 0
+		let countPromptTokens = 0
+		let countResponseTokens = 0
 
-			let _response = ''
+		let _response = ''
 
-			for await (const messageStreamEvent of messageStream) {
-				const _messageStreamEvent = messageStreamEvent as MessageStreamEvent
-				const { type: messageType } = _messageStreamEvent
+		for await (const messageStreamEvent of messageStream) {
+			const _messageStreamEvent = messageStreamEvent as MessageStreamEvent
+			const { type: messageType } = _messageStreamEvent
 
-				if (messageType === 'message_start') {
-					const inputTokens = _messageStreamEvent.message.usage.input_tokens
-					setPromptTokenCount(inputTokens)
-					countPromptTokens = inputTokens
-				}
-				if (messageType === 'content_block_delta') {
-					const messageContent = _messageStreamEvent.delta.text
-					if (messageContent) {
-						_response += messageContent
-					}
-
-					setResponseTokenCount(countToken({ text: _response }))
+			if (messageType === 'message_start') {
+				const inputTokens = _messageStreamEvent.message.usage.input_tokens
+				setPromptTokenCount(inputTokens)
+				countPromptTokens = inputTokens
+			}
+			if (messageType === 'content_block_delta') {
+				const messageContent = _messageStreamEvent.delta.text
+				if (messageContent) {
+					_response += messageContent
 				}
 
-				setResponse(_response)
-
-				if (messageType === 'message_delta') {
-					{
-						setResponseTokenCount(_messageStreamEvent.usage.output_tokens)
-						countResponseTokens = _messageStreamEvent.usage.output_tokens
-					}
-				}
+				setResponseTokenCount(countToken({ text: _response }))
 			}
 
-			return { countPromptTokens, countResponseTokens }
+			setResponse(_response)
+
+			if (messageType === 'message_delta') {
+				{
+					setResponseTokenCount(_messageStreamEvent.usage.output_tokens)
+					countResponseTokens = _messageStreamEvent.usage.output_tokens
+				}
+			}
 		}
 
-		const countPromptTokens = countToken({ text: `${commandPrompt}` })
+		return { countPromptTokens, countResponseTokens }
+	}
+
+	async function _parseOpenAIStream({
+		messageStream,
+		setResponse,
+		setResponseTokenCount,
+		setPromptTokenCount
+	}: {
+		messageStream: OpenAiStream<ChatCompletionChunk>
+		setResponse: React.Dispatch<React.SetStateAction<string>>
+		setResponseTokenCount: React.Dispatch<React.SetStateAction<number>>
+		setPromptTokenCount: React.Dispatch<React.SetStateAction<number>>
+	}) {
+		let countPromptTokens = countToken({ text: `${commandPrompt}` })
+		let countResponseTokens = 0
+
 		setPromptTokenCount(countPromptTokens)
 
 		let _response = ''
 		for await (const chunk of messageStream) {
 			const _chunk = chunk as ChatCompletionChunk
-			const chunkContent = _chunk.choices[0].delta.content as string
+			const chunkContent = _chunk.choices[0]?.delta.content as string
 			if (chunkContent) {
 				_response += chunkContent
 			}
 			setResponse(_response)
-			setResponseTokenCount(countToken({ text: _response }))
-		}
 
-		const countResponseTokens = countToken({ text: _response })
+			if (_chunk.usage) {
+				countPromptTokens = _chunk.usage.prompt_tokens
+				countResponseTokens = _chunk.usage.completion_tokens
+
+				setPromptTokenCount(countPromptTokens)
+				setResponseTokenCount(countResponseTokens)
+			} else {
+				setResponseTokenCount(countToken({ text: _response }))
+			}
+		}
 
 		return { countPromptTokens, countResponseTokens }
 	}
