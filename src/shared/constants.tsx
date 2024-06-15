@@ -1,6 +1,7 @@
 export const MODEL_OWNERS = {
 	OPEN_AI: 'OpenAI',
-	ANTHROPIC: 'Anthropic'
+	ANTHROPIC: 'Anthropic',
+	BEDROCK: 'Amazon Bedrock'
 }
 
 type ModelDetail = {
@@ -39,6 +40,11 @@ export const MODELS: Model = {
 		NAME: 'Claude 3 Opus',
 		CODE: 'claude-3-opus-20240229',
 		OWNER: MODEL_OWNERS.ANTHROPIC
+	},
+	BEDROCK_LLAMA_3: {
+		NAME: 'Llama 3 70B',
+		CODE: 'meta.llama3-70b-instruct-v1:0',
+		OWNER: MODEL_OWNERS.BEDROCK
 	}
 }
 
@@ -62,5 +68,9 @@ export const TOKEN_PRICING = {
 	[MODELS.CLAUDE_3_OPUS.CODE]: {
 		INPUT: 15, // 15$ per 1M tokens
 		OUTPUT: 75 // 75$ per 1M tokens
+	},
+	[MODELS.BEDROCK_LLAMA_3.CODE]: {
+		INPUT: 2.65, // $ per 1M tokens
+		OUTPUT: 3.5 // $ per 1M tokens
 	}
 }
