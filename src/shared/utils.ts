@@ -3,6 +3,7 @@ import { MODEL_OWNERS, MODELS, TOKEN_PRICING } from './constants'
 import { OpenAiClient } from './api/openai/openai_client'
 import { round } from 'lodash'
 import { AnthropicClient } from './api/anthropic/anthropic_client'
+import { BedrockClient } from './api/bedrock/bedrock_client'
 
 type Model = {
 	modelOwner: string
@@ -44,13 +45,15 @@ export async function showToastSelectedTextError() {
 	await showToast(Toast.Style.Failure, `Error: Text has not been selected`)
 }
 export function isApiKeyConfigured(modelOwner: string) {
-	const { openaiApiKey, anthropicApiKey } = getPreferenceValues()
+	const { openaiApiKey, anthropicApiKey, awsAccesKeyId, awsSecretAccessKey } = getPreferenceValues()
 
 	switch (modelOwner) {
 		case MODEL_OWNERS.OPEN_AI:
 			return Boolean(openaiApiKey)
 		case MODEL_OWNERS.ANTHROPIC:
 			return Boolean(anthropicApiKey)
+		case MODEL_OWNERS.BEDROCK:
+			return Boolean(awsAccesKeyId) && Boolean(awsSecretAccessKey)
 		default:
 			return false
 	}
@@ -62,6 +65,14 @@ export function getAiAPIClient(modelOwner: string) {
 		if (!openaiApiKey) showToastApiKeyError({ modelOwner: MODEL_OWNERS.OPEN_AI })
 
 		return new OpenAiClient({ apiKey: openaiApiKey })
+	}
+	if (modelOwner === MODEL_OWNERS.BEDROCK) {
+		const { awsAccesKeyId, awsSecretAccessKey } = getPreferenceValues()
+		if (!awsAccesKeyId || !awsSecretAccessKey) {
+			showToastApiKeyError({ modelOwner: MODEL_OWNERS.BEDROCK })
+		}
+
+		return new BedrockClient({ accessKeyId: awsAccesKeyId, secretAccessKey: awsSecretAccessKey })
 	}
 	const { anthropicApiKey } = getPreferenceValues()
 	if (!anthropicApiKey) showToastApiKeyError({ modelOwner: MODEL_OWNERS.ANTHROPIC })
