@@ -170,6 +170,16 @@ export default function ExecuteCommand({
 					setPromptTokenCount,
 					setResponseTokenCount
 				})
+
+				const totalStreamCost = estimatePrice({
+					promptTokenCount: countPromptTokens,
+					responseTokenCount: countResponseTokens,
+					modelCode
+				})
+
+				setTotalCost(totalStreamCost)
+				handleMoneySpent(totalStreamCost)
+				return
 			}
 			throw new Error('modelOwner is not defined')
 		} catch (error) {
@@ -309,6 +319,11 @@ export default function ExecuteCommand({
 		setResponseTokenCount: React.Dispatch<React.SetStateAction<number>>
 		setPromptTokenCount: React.Dispatch<React.SetStateAction<number>>
 	}) {
+		const countPromptTokens = countToken({ text: `${commandPrompt}` })
+		const countResponseTokens = 0
+
+		setPromptTokenCount(countPromptTokens)
+
 		let _response = ''
 
 		if (messageStream.stream) {
@@ -317,11 +332,11 @@ export default function ExecuteCommand({
 					console.log(item)
 					_response += item.contentBlockDelta.delta?.text
 				}
+				setResponse(_response)
+				setResponseTokenCount(countToken({ text: _response }))
 			}
 		}
 
-		console.log(_response)
-
-		return
+		return { countPromptTokens, countResponseTokens }
 	}
 }

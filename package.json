@@ -44,6 +44,10 @@
               "value": "GPT_4_OMNI"
             },
             {
+              "title": "Amazon Bedrock - Llama 3 70B",
+              "value": "BEDROCK_LLAMA_3"
+            },
+            {
               "title": "Anthropic - Claude 3 Haiku",
               "value": "CLAUDE_3_HAIKU"
             },
@@ -92,6 +96,10 @@
             {
               "title": "OpenAI - GPT-4o",
               "value": "GPT_4_OMNI"
+            },
+            {
+              "title": "Amazon Bedrock - Llama 3 70B",
+              "value": "BEDROCK_LLAMA_3"
             },
             {
               "title": "Anthropic - Claude 3 Haiku",
@@ -143,6 +151,10 @@
             {
               "title": "OpenAI - GPT-4o",
               "value": "GPT_4_OMNI"
+            },
+            {
+              "title": "Amazon Bedrock - Llama 3 70B",
+              "value": "BEDROCK_LLAMA_3"
             },
             {
               "title": "Anthropic - Claude 3 Haiku",
@@ -204,6 +216,10 @@
               "value": "GPT_4_OMNI"
             },
             {
+              "title": "Amazon Bedrock - Llama 3 70B",
+              "value": "BEDROCK_LLAMA_3"
+            },
+            {
               "title": "Anthropic - Claude 3 Haiku",
               "value": "CLAUDE_3_HAIKU"
             },
@@ -244,7 +260,7 @@
           "value": "GPT_4_OMNI"
         },
         {
-          "title": "Amazon Bedrock - Llama3",
+          "title": "Amazon Bedrock - Llama 3 70B",
           "value": "BEDROCK_LLAMA_3"
         },
         {
