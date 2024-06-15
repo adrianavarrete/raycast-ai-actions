@@ -223,6 +223,7 @@
   ],
   "dependencies": {
     "@anthropic-ai/sdk": "^0.21.1",
+    "@aws-sdk/client-bedrock-runtime": "^3.598.0",
     "@raycast/api": "^1.74.1",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
