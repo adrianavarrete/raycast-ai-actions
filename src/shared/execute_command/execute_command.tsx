@@ -15,9 +15,11 @@ import {
 import { ChatCompletionChunk } from 'openai/resources'
 import { Stream as OpenAiStream } from 'openai/streaming'
 import { Stream as AnthropicAiStream } from '@anthropic-ai/sdk/streaming'
+import { ConverseStreamCommandOutput } from '@aws-sdk/client-bedrock-runtime'
 
 import { AnthropicClient } from '../api/anthropic/anthropic_client'
 import { OpenAiClient } from '../api/openai/openai_client'
+import { BedrockClient } from '../api/bedrock/bedrock_client'
 
 import { MODEL_OWNERS } from '../constants'
 import { MessageStreamEvent } from '@anthropic-ai/sdk/resources'
@@ -32,7 +34,7 @@ export default function ExecuteCommand({
 	modelName
 }: {
 	commandPrompt: string
-	aiApiClient: OpenAiClient | AnthropicClient
+	aiApiClient: OpenAiClient | AnthropicClient | BedrockClient
 	modelOwner: string
 	modelCode: string
 	modelName: string
@@ -108,13 +110,13 @@ export default function ExecuteCommand({
 		const selectedText = await handleGetSelectedText()
 		setIsLoading(true)
 		try {
-			const _messageStream = await aiApiClient.createStream({
-				selectedText: selectedText,
-				systemPrompt: commandPrompt,
-				modelCode
-			})
-
 			if (modelOwner === MODEL_OWNERS.ANTHROPIC) {
+				const _messageStream = await aiApiClient.createStream({
+					selectedText: selectedText,
+					systemPrompt: commandPrompt,
+					modelCode
+				})
+
 				const { countPromptTokens, countResponseTokens } = await _parseAnthropicStream({
 					messageStream: _messageStream as AnthropicAiStream<MessageStreamEvent>,
 					setResponse,
@@ -133,6 +135,11 @@ export default function ExecuteCommand({
 				return
 			}
 			if (modelOwner === MODEL_OWNERS.OPEN_AI) {
+				const _messageStream = await aiApiClient.createStream({
+					selectedText: selectedText,
+					systemPrompt: commandPrompt,
+					modelCode
+				})
 				const { countPromptTokens, countResponseTokens } = await _parseOpenAIStream({
 					messageStream: _messageStream as OpenAiStream<ChatCompletionChunk>,
 					setResponse,
@@ -149,6 +156,20 @@ export default function ExecuteCommand({
 				setTotalCost(totalStreamCost)
 				handleMoneySpent(totalStreamCost)
 				return
+			}
+			if (modelOwner === MODEL_OWNERS.BEDROCK) {
+				const _messageStream = await aiApiClient.createStream({
+					selectedText: selectedText,
+					systemPrompt: commandPrompt,
+					modelCode
+				})
+
+				const { countPromptTokens, countResponseTokens } = await _parseBedrockStream({
+					messageStream: _messageStream as ConverseStreamCommandOutput,
+					setResponse,
+					setPromptTokenCount,
+					setResponseTokenCount
+				})
 			}
 			throw new Error('modelOwner is not defined')
 		} catch (error) {
@@ -275,5 +296,32 @@ export default function ExecuteCommand({
 		}
 
 		return { countPromptTokens, countResponseTokens }
+	}
+
+	async function _parseBedrockStream({
+		messageStream,
+		setResponse,
+		setResponseTokenCount,
+		setPromptTokenCount
+	}: {
+		messageStream: ConverseStreamCommandOutput
+		setResponse: React.Dispatch<React.SetStateAction<string>>
+		setResponseTokenCount: React.Dispatch<React.SetStateAction<number>>
+		setPromptTokenCount: React.Dispatch<React.SetStateAction<number>>
+	}) {
+		let _response = ''
+
+		if (messageStream.stream) {
+			for await (const item of messageStream.stream) {
+				if (item.contentBlockDelta) {
+					console.log(item)
+					_response += item.contentBlockDelta.delta?.text
+				}
+			}
+		}
+
+		console.log(_response)
+
+		return
 	}
 }
