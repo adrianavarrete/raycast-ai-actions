@@ -48,8 +48,8 @@
               "value": "CLAUDE_3_HAIKU"
             },
             {
-              "title": "Anthropic - Claude 3 Sonnet",
-              "value": "CLAUDE_3_SONNET"
+              "title": "Anthropic - Claude 3.5 Sonnet",
+              "value": "CLAUDE_35_SONNET"
             },
             {
               "title": "Anthropic - Claude 3 Opus",
@@ -98,8 +98,8 @@
               "value": "CLAUDE_3_HAIKU"
             },
             {
-              "title": "Anthropic - Claude 3 Sonnet",
-              "value": "CLAUDE_3_SONNET"
+              "title": "Anthropic - Claude 3.5 Sonnet",
+              "value": "CLAUDE_35_SONNET"
             },
             {
               "title": "Anthropic - Claude 3 Opus",
@@ -149,8 +149,8 @@
               "value": "CLAUDE_3_HAIKU"
             },
             {
-              "title": "Anthropic - Claude 3 Sonnet",
-              "value": "CLAUDE_3_SONNET"
+              "title": "Anthropic - Claude 3.5 Sonnet",
+              "value": "CLAUDE_35_SONNET"
             },
             {
               "title": "Anthropic - Claude 3 Opus",
@@ -208,8 +208,8 @@
               "value": "CLAUDE_3_HAIKU"
             },
             {
-              "title": "Anthropic - Claude 3 Sonnet",
-              "value": "CLAUDE_3_SONNET"
+              "title": "Anthropic - Claude 3.5 Sonnet",
+              "value": "CLAUDE_35_SONNET"
             },
             {
               "title": "Anthropic - Claude 3 Opus",
@@ -247,8 +247,8 @@
           "value": "CLAUDE_3_HAIKU"
         },
         {
-          "title": "Anthropic - Claude 3 Sonnet",
-          "value": "CLAUDE_3_SONNET"
+          "title": "Anthropic - Claude 3.5 Sonnet",
+          "value": "CLAUDE_35_SONNET"
         },
         {
           "title": "Anthropic - Claude 3 Opus",

@@ -30,9 +30,9 @@ export const MODELS: Model = {
 		CODE: 'claude-3-haiku-20240307',
 		OWNER: MODEL_OWNERS.ANTHROPIC
 	},
-	CLAUDE_3_SONNET: {
-		NAME: 'Claude 3 Sonnet',
-		CODE: 'claude-3-sonnet-20240229',
+	CLAUDE_35_SONNET: {
+		NAME: 'Claude 3.5 Sonnet',
+		CODE: 'claude-3-5-sonnet-20240620',
 		OWNER: MODEL_OWNERS.ANTHROPIC
 	},
 	CLAUDE_3_OPUS: {
@@ -55,7 +55,7 @@ export const TOKEN_PRICING = {
 		INPUT: 0.25, // 0.25$ per 1M tokens
 		OUTPUT: 1.25 // 1.25$ per 1M tokens
 	},
-	[MODELS.CLAUDE_3_SONNET.CODE]: {
+	[MODELS.CLAUDE_35_SONNET.CODE]: {
 		INPUT: 3, // 3$ per 1M tokens
 		OUTPUT: 15 // 15$ per 1M tokens
 	},
