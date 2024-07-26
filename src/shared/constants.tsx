@@ -14,9 +14,9 @@ type Model = {
 }
 
 export const MODELS: Model = {
-	GPT_35_TURBO: {
-		NAME: 'GPT-3.5 Turbo',
-		CODE: 'gpt-3.5-turbo',
+	GPT_4_OMNI_MINI: {
+		NAME: 'GPT-4o-mini',
+		CODE: 'gpt-4o-mini',
 		OWNER: MODEL_OWNERS.OPEN_AI
 	},
 	GPT_4_OMNI: {
@@ -43,9 +43,9 @@ export const MODELS: Model = {
 }
 
 export const TOKEN_PRICING = {
-	[MODELS.GPT_35_TURBO.CODE]: {
-		INPUT: 0.5, // 0.5$ per 1M tokens
-		OUTPUT: 1.5 // 1.5$ per 1M tokens
+	[MODELS.GPT_4_OMNI_MINI.CODE]: {
+		INPUT: 0.15, // 0.15$ per 1M tokens
+		OUTPUT: 0.6 // 0.6$ per 1M tokens
 	},
 	[MODELS.GPT_4_OMNI.CODE]: {
 		INPUT: 5, // 5$ per 1M tokens

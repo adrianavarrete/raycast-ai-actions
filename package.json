@@ -28,8 +28,8 @@
               "value": ""
             },
             {
-              "title": "OpenAI - GPT-3.5 Turbo",
-              "value": "GPT_35_TURBO"
+              "title": "OpenAI - GPT 4o mini",
+              "value": "GPT_4_OMNI_MINI"
             },
             {
               "title": "OpenAI - GPT-4o",
@@ -70,8 +70,8 @@
               "value": ""
             },
             {
-              "title": "OpenAI - GPT-3.5 Turbo",
-              "value": "GPT_35_TURBO"
+              "title": "OpenAI - GPT 4o mini",
+              "value": "GPT_4_OMNI_MINI"
             },
             {
               "title": "OpenAI - GPT-4o",
@@ -112,8 +112,8 @@
               "value": ""
             },
             {
-              "title": "OpenAI - GPT-3.5 Turbo",
-              "value": "GPT_35_TURBO"
+              "title": "OpenAI - GPT 4o mini",
+              "value": "GPT_4_OMNI_MINI"
             },
             {
               "title": "OpenAI - GPT-4o",
@@ -162,8 +162,8 @@
               "value": ""
             },
             {
-              "title": "OpenAI - GPT-3.5 Turbo",
-              "value": "GPT_35_TURBO"
+              "title": "OpenAI - GPT 4o mini",
+              "value": "GPT_4_OMNI_MINI"
             },
             {
               "title": "OpenAI - GPT-4o",
@@ -201,8 +201,8 @@
       "type": "dropdown",
       "data": [
         {
-          "title": "OpenAI - GPT-3.5 Turbo",
-          "value": "GPT_35_TURBO"
+          "title": "OpenAI - GPT 4o mini",
+          "value": "GPT_4_OMNI_MINI"
         },
         {
           "title": "OpenAI - GPT-4o",

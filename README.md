@@ -4,11 +4,9 @@
 
 Make AI actions by selecting text in your Mac apps using your favorite models directly from Raycast, without logging in to their platforms; currently, the extension has integration with OpenAI and Anthropic:
 
-
-
 ### OpenAI
 
-- GPT-3.5 Turbo
+- GPT-4o mini
 - GPT-4o
 
 ### Anthropic:
