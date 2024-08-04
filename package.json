@@ -3,7 +3,7 @@
   "name": "ai-actions",
   "title": "AI Actions",
   "description": "Make AI actions from your favorite models directly from Raycast without logging into their platforms.",
-  "icon": "ai_actions.png",
+  "icon": "icon.png",
   "author": "adria_navarrete",
   "categories": [
     "Productivity"
@@ -15,7 +15,7 @@
       "title": "Fix Spelling and Grammar",
       "description": "Detects the writer's language and rewrites the text with corrected spelling, grammar, and punctuation.",
       "mode": "view",
-      "icon": "ai_actions.png",
+      "icon": "icon.png",
       "preferences": [
         {
           "name": "commandCustomModelName",
@@ -57,7 +57,7 @@
       "title": "Summary",
       "description": "A concise overview, highlighting key points and takeaways.",
       "mode": "view",
-      "icon": "ai_actions.png",
+      "icon": "icon.png",
       "preferences": [
         {
           "name": "commandCustomModelName",
@@ -99,7 +99,7 @@
       "title": "Explain It In Simple Terms",
       "description": "Explain the selected text to make it understandable to every type of person, regardless of their background or knowledge level.",
       "mode": "view",
-      "icon": "ai_actions.png",
+      "icon": "icon.png",
       "preferences": [
         {
           "name": "commandCustomModelName",
@@ -141,7 +141,7 @@
       "title": "Translate To",
       "description": "Translate the selected the text to an specific language",
       "mode": "view",
-      "icon": "ai_actions.png",
+      "icon": "icon.png",
       "arguments": [
         {
           "name": "language",
@@ -191,7 +191,7 @@
       "title": "Explain This Code Step By Step",
       "description": "Explain a piece of code clearly and concisely",
       "mode": "view",
-      "icon": "ai_actions.png",
+      "icon": "icon.png",
       "preferences": [
         {
           "name": "commandCustomModelName",
