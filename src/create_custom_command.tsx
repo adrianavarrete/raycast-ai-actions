@@ -21,7 +21,7 @@ export default function Command() {
 		<ActionPanel>
 			<Action.CreateQuicklink
 				quicklink={{
-					link: `raycast://extensions/adria_navarrete/ai-actions/custom-command?arguments=${encodeURIComponent(
+					link: `raycast://extensions/adria_navarrete/ai-actions/custom_command?arguments=${encodeURIComponent(
 						JSON.stringify({
 							prompt: itemProps.prompt.value,
 							modelName: itemProps.modelName.value
