@@ -237,7 +237,7 @@
     },
     {
       "name": "custom_command",
-      "title": "Custom Command",
+      "title": "Quickink Custom Command",
       "description": "Trigger a custom command saved previously as a Raycast Quicklink",
       "mode": "view",
       "arguments": [
