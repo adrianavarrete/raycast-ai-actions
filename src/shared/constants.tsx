@@ -32,7 +32,7 @@ export const MODELS: Model = {
 	},
 	CLAUDE_35_SONNET: {
 		NAME: 'Claude 3.5 Sonnet',
-		CODE: 'claude-3-5-sonnet-20240620',
+		CODE: 'claude-3-5-sonnet-latest',
 		OWNER: MODEL_OWNERS.ANTHROPIC
 	},
 	CLAUDE_3_OPUS: {
