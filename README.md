@@ -12,6 +12,7 @@ Make AI actions by selecting text in your Mac apps using your favorite models di
 ### Anthropic:
 
 - Claude 3 Haiku
+- Claude 3.5 Haiku
 - Claude 3.5 Sonnet
 - Claude 3 Opus
 

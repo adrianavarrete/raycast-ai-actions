@@ -283,6 +283,10 @@
           "value": "CLAUDE_3_HAIKU"
         },
         {
+          "title": "Anthropic - Claude 3.5 Haiku",
+          "value": "CLAUDE_35_HAIKU"
+        },
+        {
           "title": "Anthropic - Claude 3.5 Sonnet",
           "value": "CLAUDE_35_SONNET"
         },

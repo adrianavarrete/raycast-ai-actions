@@ -24,10 +24,14 @@ export const MODELS: Model = {
 		CODE: 'gpt-4o',
 		OWNER: MODEL_OWNERS.OPEN_AI
 	},
-
 	CLAUDE_3_HAIKU: {
 		NAME: 'Claude 3 Haiku',
 		CODE: 'claude-3-haiku-20240307',
+		OWNER: MODEL_OWNERS.ANTHROPIC
+	},
+	CLAUDE_35_HAIKU: {
+		NAME: 'Claude 3.5 Haiku',
+		CODE: 'claude-3-5-haiku-latest',
 		OWNER: MODEL_OWNERS.ANTHROPIC
 	},
 	CLAUDE_35_SONNET: {
@@ -54,6 +58,10 @@ export const TOKEN_PRICING = {
 	[MODELS.CLAUDE_3_HAIKU.CODE]: {
 		INPUT: 0.25, // 0.25$ per 1M tokens
 		OUTPUT: 1.25 // 1.25$ per 1M tokens
+	},
+	[MODELS.CLAUDE_35_HAIKU.CODE]: {
+		INPUT: 1, // 1$ per 1M tokens
+		OUTPUT: 5 // 5$ per 1M tokens
 	},
 	[MODELS.CLAUDE_35_SONNET.CODE]: {
 		INPUT: 3, // 3$ per 1M tokens
