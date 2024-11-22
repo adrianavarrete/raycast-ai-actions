@@ -5,8 +5,11 @@ import ExecuteCommand from './shared/execute_command/execute_command'
 const { commandCustomModelName } = getPreferenceValues()
 
 export default function AskAnything(props: LaunchProps<{ arguments: Arguments.AskAnything }>) {
-	const { modelOwner, modelName, modelCode } = getModel(commandCustomModelName)
-	const { question } = props.arguments
+	const { question, model: modelSelected } = props.arguments
+
+	const modelData = getModel(modelSelected || commandCustomModelName)
+
+	const { modelOwner, modelName, modelCode } = modelData
 
 	const prompt = `Given the text enclosed within <text> tags:
 
