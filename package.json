@@ -199,6 +199,60 @@
       ]
     },
     {
+      "name": "ask_anything",
+      "title": "Ask AI About Selected Text",
+      "description": "This command enables users to select a portion of text and ask an AI model a specific question about it.",
+      "mode": "view",
+      "icon": "icon.png",
+      "arguments": [
+        {
+          "name": "question",
+          "placeholder": "ask your question...",
+          "type": "text",
+          "required": true
+        }
+      ],
+      "preferences": [
+        {
+          "name": "commandCustomModelName",
+          "title": "Custom Model",
+          "description": "Custom model for this command",
+          "type": "dropdown",
+          "data": [
+            {
+              "title": "Default model",
+              "value": ""
+            },
+            {
+              "title": "OpenAI - GPT 4o mini",
+              "value": "GPT_4_OMNI_MINI"
+            },
+            {
+              "title": "OpenAI - GPT-4o",
+              "value": "GPT_4_OMNI"
+            },
+            {
+              "title": "Anthropic - Claude 3 Haiku",
+              "value": "CLAUDE_3_HAIKU"
+            },
+            {
+              "title": "Anthropic - Claude 3.5 Haiku",
+              "value": "CLAUDE_35_HAIKU"
+            },
+            {
+              "title": "Anthropic - Claude 3.5 Sonnet",
+              "value": "CLAUDE_35_SONNET"
+            },
+            {
+              "title": "Anthropic - Claude 3 Opus",
+              "value": "CLAUDE_3_OPUS"
+            }
+          ],
+          "required": false
+        }
+      ]
+    },
+    {
       "name": "explain_this_code_step_by_step",
       "title": "Explain This Code Step By Step",
       "description": "Explain a piece of code clearly and concisely",
