@@ -290,6 +290,40 @@
       "description": "Explain a piece of code clearly and concisely",
       "mode": "view",
       "icon": "icon.png",
+      "arguments": [
+        {
+          "name": "model",
+          "placeholder": "Default model",
+          "type": "dropdown",
+          "required": false,
+          "data": [
+            {
+              "title": "OpenAI - GPT 4o mini",
+              "value": "GPT_4_OMNI_MINI"
+            },
+            {
+              "title": "OpenAI - GPT-4o",
+              "value": "GPT_4_OMNI"
+            },
+            {
+              "title": "Anthropic - Claude 3 Haiku",
+              "value": "CLAUDE_3_HAIKU"
+            },
+            {
+              "title": "Anthropic - Claude 3.5 Haiku",
+              "value": "CLAUDE_35_HAIKU"
+            },
+            {
+              "title": "Anthropic - Claude 3.5 Sonnet",
+              "value": "CLAUDE_35_SONNET"
+            },
+            {
+              "title": "Anthropic - Claude 3 Opus",
+              "value": "CLAUDE_3_OPUS"
+            }
+          ]
+        }
+      ],
       "preferences": [
         {
           "name": "commandCustomModelName",

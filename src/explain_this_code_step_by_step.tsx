@@ -1,12 +1,17 @@
-import { getPreferenceValues } from '@raycast/api'
+import { LaunchProps, getPreferenceValues } from '@raycast/api'
 import { getAiAPIClient, getModel } from './shared/utils'
 import ExecuteCommand from './shared/execute_command/execute_command'
 
 const { commandCustomModelName } = getPreferenceValues()
 
-export default function ExplainThisCodeStepByStep() {
-	const { modelOwner, modelName, modelCode } = getModel(commandCustomModelName)
+export default function ExplainThisCodeStepByStep(
+	props: LaunchProps<{ arguments: Arguments.ExplainThisCodeStepByStep }>
+) {
+	const { model: modelSelected } = props.arguments
 
+	const modelData = getModel(modelSelected || commandCustomModelName)
+
+	const { modelOwner, modelName, modelCode } = modelData
 	const prompt = `
 	Act as a software engineer with deep understanding of any programming language and it's documentation. Explain how the code works step by step in a list. Be concise with a casual tone of voice and write it as documentation for others.
 
