@@ -218,10 +218,6 @@
           "required": false,
           "data": [
             {
-              "title": "Default model",
-              "value": ""
-            },
-            {
               "title": "OpenAI - GPT 4o mini",
               "value": "GPT_4_OMNI_MINI"
             },
