@@ -1,6 +1,7 @@
 export const MODEL_OWNERS = {
 	OPEN_AI: 'OpenAI',
-	ANTHROPIC: 'Anthropic'
+	ANTHROPIC: 'Anthropic',
+	DEEPSEEK: 'DeepSeek'
 }
 
 type ModelDetail = {
@@ -43,6 +44,16 @@ export const MODELS: Model = {
 		NAME: 'Claude 3 Opus',
 		CODE: 'claude-3-opus-20240229',
 		OWNER: MODEL_OWNERS.ANTHROPIC
+	},
+	DEEPSEEK_CHAT_V3: {
+		NAME: 'DeepSeek chat v3',
+		CODE: 'deepseek-chat',
+		OWNER: MODEL_OWNERS.DEEPSEEK
+	},
+	DEEPSEEK_REASONER_V1: {
+		NAME: 'DeepSeek R1',
+		CODE: 'deepseek-reasoner',
+		OWNER: MODEL_OWNERS.DEEPSEEK
 	}
 }
 
@@ -70,5 +81,13 @@ export const TOKEN_PRICING = {
 	[MODELS.CLAUDE_3_OPUS.CODE]: {
 		INPUT: 15, // 15$ per 1M tokens
 		OUTPUT: 75 // 75$ per 1M tokens
+	},
+	[MODELS.DEEPSEEK_CHAT_V3.CODE]: {
+		INPUT: 0.27, // 0.27$ per 1M tokens
+		OUTPUT: 1.1 // 1.10$ per 1M tokens
+	},
+	[MODELS.DEEPSEEK_REASONER_V1.CODE]: {
+		INPUT: 0.55, // 0.55$ per 1M tokens
+		OUTPUT: 2.19 // 2.19$ per 1M tokens
 	}
 }

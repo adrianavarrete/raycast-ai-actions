@@ -44,13 +44,15 @@ export async function showToastSelectedTextError() {
 	await showToast(Toast.Style.Failure, `Error: Text has not been selected`)
 }
 export function isApiKeyConfigured(modelOwner: string) {
-	const { openaiApiKey, anthropicApiKey } = getPreferenceValues()
+	const { openaiApiKey, anthropicApiKey, deepSeekApiKey } = getPreferenceValues()
 
 	switch (modelOwner) {
 		case MODEL_OWNERS.OPEN_AI:
 			return Boolean(openaiApiKey)
 		case MODEL_OWNERS.ANTHROPIC:
 			return Boolean(anthropicApiKey)
+		case MODEL_OWNERS.DEEPSEEK:
+			return Boolean(deepSeekApiKey)
 		default:
 			return false
 	}
@@ -62,6 +64,11 @@ export function getAiAPIClient(modelOwner: string) {
 		if (!openaiApiKey) showToastApiKeyError({ modelOwner: MODEL_OWNERS.OPEN_AI })
 
 		return new OpenAiClient({ apiKey: openaiApiKey })
+	}
+	if (modelOwner === MODEL_OWNERS.DEEPSEEK) {
+		const { deepSeekApiKey } = getPreferenceValues()
+		if (!deepSeekApiKey) showToastApiKeyError({ modelOwner: MODEL_OWNERS.DEEPSEEK })
+		return new OpenAiClient({ apiKey: deepSeekApiKey, baseURL: 'https://api.deepseek.com' })
 	}
 	const { anthropicApiKey } = getPreferenceValues()
 	if (!anthropicApiKey) showToastApiKeyError({ modelOwner: MODEL_OWNERS.ANTHROPIC })

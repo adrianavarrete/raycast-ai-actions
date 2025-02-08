@@ -46,6 +46,14 @@
             {
               "title": "Anthropic - Claude 3 Opus",
               "value": "CLAUDE_3_OPUS"
+            },
+            {
+              "title": "DeepSeek - Chat v3",
+              "value": "DEEPSEEK_CHAT_V3"
+            },
+            {
+              "title": "DeepSeek - R1",
+              "value": "DEEPSEEK_REASONER_V1"
             }
           ],
           "required": false
@@ -92,6 +100,14 @@
             {
               "title": "Anthropic - Claude 3 Opus",
               "value": "CLAUDE_3_OPUS"
+            },
+            {
+              "title": "DeepSeek - Chat v3",
+              "value": "DEEPSEEK_CHAT_V3"
+            },
+            {
+              "title": "DeepSeek - R1",
+              "value": "DEEPSEEK_REASONER_V1"
             }
           ],
           "required": false
@@ -138,6 +154,14 @@
             {
               "title": "Anthropic - Claude 3 Opus",
               "value": "CLAUDE_3_OPUS"
+            },
+            {
+              "title": "DeepSeek - Chat v3",
+              "value": "DEEPSEEK_CHAT_V3"
+            },
+            {
+              "title": "DeepSeek - R1",
+              "value": "DEEPSEEK_REASONER_V1"
             }
           ],
           "required": false
@@ -192,6 +216,14 @@
             {
               "title": "Anthropic - Claude 3 Opus",
               "value": "CLAUDE_3_OPUS"
+            },
+            {
+              "title": "DeepSeek - Chat v3",
+              "value": "DEEPSEEK_CHAT_V3"
+            },
+            {
+              "title": "DeepSeek - R1",
+              "value": "DEEPSEEK_REASONER_V1"
             }
           ],
           "required": false
@@ -240,6 +272,14 @@
             {
               "title": "Anthropic - Claude 3 Opus",
               "value": "CLAUDE_3_OPUS"
+            },
+            {
+              "title": "DeepSeek - Chat v3",
+              "value": "DEEPSEEK_CHAT_V3"
+            },
+            {
+              "title": "DeepSeek - R1",
+              "value": "DEEPSEEK_REASONER_V1"
             }
           ]
         }
@@ -278,6 +318,14 @@
             {
               "title": "Anthropic - Claude 3 Opus",
               "value": "CLAUDE_3_OPUS"
+            },
+            {
+              "title": "DeepSeek - Chat v3",
+              "value": "DEEPSEEK_CHAT_V3"
+            },
+            {
+              "title": "DeepSeek - R1",
+              "value": "DEEPSEEK_REASONER_V1"
             }
           ],
           "required": false
@@ -358,6 +406,14 @@
             {
               "title": "Anthropic - Claude 3 Opus",
               "value": "CLAUDE_3_OPUS"
+            },
+            {
+              "title": "DeepSeek - Chat v3",
+              "value": "DEEPSEEK_CHAT_V3"
+            },
+            {
+              "title": "DeepSeek - R1",
+              "value": "DEEPSEEK_REASONER_V1"
             }
           ],
           "required": false
@@ -429,6 +485,14 @@
         {
           "title": "Anthropic - Claude 3 Opus",
           "value": "CLAUDE_3_OPUS"
+        },
+        {
+          "title": "DeepSeek - Chat v3",
+          "value": "DEEPSEEK_CHAT_V3"
+        },
+        {
+          "title": "DeepSeek - R1",
+          "value": "DEEPSEEK_REASONER_V1"
         }
       ],
       "required": true,
@@ -447,6 +511,13 @@
       "type": "password",
       "required": false,
       "title": "Anthropic API Key"
+    },
+    {
+      "name": "deepSeekApiKey",
+      "description": "Your DeepSeek API Key",
+      "type": "password",
+      "required": false,
+      "title": "DeepSeek API Key"
     }
   ],
   "devDependencies": {

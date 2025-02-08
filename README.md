@@ -2,7 +2,7 @@
 
 <img src="https://github.com/adrianavarrete/raycast-ai-actions/blob/master/assets/Ai%20Actions%20logo.png" alt="OpenAI Logo" width="300 " height="300">
 
-Make AI actions by selecting text in your Mac apps using your favorite models directly from Raycast, without logging in to their platforms; currently, the extension has integration with OpenAI and Anthropic:
+Make AI actions by selecting text in your Mac apps using your favorite models directly from Raycast, without logging in to their platforms; currently, the extension has integration with OpenAI, Anthropic and DeepSeek:
 
 ### OpenAI
 
@@ -15,6 +15,11 @@ Make AI actions by selecting text in your Mac apps using your favorite models di
 - Claude 3.5 Haiku
 - Claude 3.5 Sonnet
 - Claude 3 Opus
+
+### DeepSeek
+
+- DeepSeek chat v3
+- DeepSeek R1
 
 ###
 

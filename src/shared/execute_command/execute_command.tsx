@@ -132,7 +132,7 @@ export default function ExecuteCommand({
 				handleMoneySpent(totalStreamCost)
 				return
 			}
-			if (modelOwner === MODEL_OWNERS.OPEN_AI) {
+			if (modelOwner === MODEL_OWNERS.OPEN_AI || modelOwner === MODEL_OWNERS.DEEPSEEK) {
 				const { countPromptTokens, countResponseTokens } = await _parseOpenAIStream({
 					messageStream: _messageStream as OpenAiStream<ChatCompletionChunk>,
 					setResponse,

@@ -2,8 +2,8 @@ import { OpenAI } from 'openai'
 
 export class OpenAiClient {
 	openai: OpenAI
-	constructor({ apiKey }: { apiKey: string }) {
-		this.openai = new OpenAI({ apiKey })
+	constructor({ apiKey, baseURL }: { apiKey: string; baseURL?: string }) {
+		this.openai = new OpenAI({ apiKey, baseURL })
 	}
 
 	createStream({
